@@ -1,31 +1,38 @@
 #!/bin/sh
-rm -rf Copied_Files
-mkdir Copied_Files
-cp /etc/login.defs Copied_Files/ 2>/dev/null
-cp /etc/inetd.conf Copied_Files/ 2>/dev/null || cp -r /etc/xinetd.d/ Copied_Files/ 2>/dev/null
-cp /etc/mail/sendmail.cf Copied_Files/ 2>/dev/null
-(cp /etc/csh.login Copied_Files/ 2>/dev/null || cp /etc/csh.cshrc Copied_Files/ 2>/dev/null) || (cp /etc/profile 2>/dev/null || cp /etc/.profile 2>/dev/null)
-cp /etc/exports Copied_Files/ 2>/dev/null
-cp /etc/passwd Copied_Files/ 2>/dev/null
-cp /etc/group Copied_Files/ 2>/dev/null
-cp /etc/motd Copied_Files/ 2>/dev/null
-cp /etc/issue.net Copied_Files/ 2>/dev/null
-cp /etc/vsftpd/vsftpd.conf Copied_Files/ 2>/dev/null || cp /etc/vsftpd.conf Copied_Files/ 2>/dev/null
-cp /etc/named.conf Copied_Files/ 2>/dev/null
-cp /etc/pam.d/system-auth Copied_Files/ 2>/dev/null
-cp /etc/pam.d/password-auth Copied_Files/ 2>/dev/null
-cp /etc/securetty Copied_Files/ 2>/dev/null
-cp /etc/pam.d/login Copied_Files/ 2>/dev/null
-cp /etc/security/pwquality.conf Copied_Files/ 2>/dev/null 
-cp /etc/rsyslog.conf Copied_Files/ 2>/dev/null
-cp /var/log/wtmp Copied_Files/ 2>/dev/null
-cp /var/log/sulog Copied_Files/ 2>/dev/null
-cp /etc/snmp/snmpd.conf Copied_Files/ 2>/dev/null
-cp /etc/pam.d/su Copied_Files/ 2>/dev/null
-cp /usr/bin/su Copied_Files/ 2>/dev/null
+rm -rf BackData 2>/dev/null
+mkdir BackData
+mkdir BackData/Copied_Files
+cp /etc/login.defs BackData/Copied_Files/ 2>/dev/null
+cp /etc/inetd.conf BackData/Copied_Files/ 2>/dev/null || cp -r /etc/xinetd.d/ BackData/Copied_Files/ 2>/dev/null
+cp /etc/mail/sendmail.cf BackData/Copied_Files/ 2>/dev/null
+(cp /etc/csh.login BackData/Copied_Files/ 2>/dev/null || cp /etc/csh.cshrc BackData/Copied_Files/ 2>/dev/null) || (cp /etc/profile BackData/Copied_Files 2>/dev/null || cp /etc/.profile BackData/Copied_Files 2>/dev/null)
+cp /etc/exports BackData/Copied_Files/ 2>/dev/null
+cp /etc/passwd BackData/Copied_Files/ 2>/dev/null
+cp /etc/group BackData/Copied_Files/ 2>/dev/null
+cp /etc/motd BackData/Copied_Files/ 2>/dev/null
+cp /etc/issue.net BackData/Copied_Files/ 2>/dev/null
+cp /etc/vsftpd/vsftpd.conf BackData/Copied_Files/ 2>/dev/null || cp /etc/vsftpd.conf BackData/Copied_Files/ 2>/dev/null
+cp /etc/named.conf BackData/Copied_Files/ 2>/dev/null
+cp /etc/pam.d/system-auth BackData/Copied_Files/ 2>/dev/null
+cp /etc/pam.d/password-auth BackData/Copied_Files/ 2>/dev/null
+cp /etc/securetty BackData/Copied_Files/ 2>/dev/null
+cp /etc/pam.d/login BackData/Copied_Files/ 2>/dev/null
+cp /etc/security/pwquality.conf BackData/Copied_Files/ 2>/dev/null 
+cp /etc/rsyslog.conf BackData/Copied_Files/ 2>/dev/null
+cp /var/log/wtmp BackData/Copied_Files/ 2>/dev/null
+cp /var/log/sulog BackData/Copied_Files/ 2>/dev/null
+cp /etc/snmp/snmpd.conf BackData/Copied_Files/ 2>/dev/null
+cp /etc/pam.d/su BackData/Copied_Files/ 2>/dev/null
+cp /usr/bin/su BackData/Copied_Files/ 2>/dev/null
 
-mkdir collect_files
-echo $PATH > collect_files/5
-find / -nouser 2>/dev/null > result_files/6
-find / -nogroup 2>/dev/null >> result_files/6
+echo $PATH > BackData/5
+echo "No User Files" > BackData/6
+find / -nouser -exec ls -al {} \; 2>/dev/null >> BackData/6
+echo "" >> BackData/6
+echo "No Group Files" >> BackData/6
+find / -nogroup -exec ls -al {} \; 2>/dev/null >> BackData/6
+find / -type f \( -perm -4000 -o -perm 2000 \) -exec ls -al {} \; 2>/dev/null  > BackData/13
+find / -type f \( -name ".*rc" -o -name ".*profile" -o -name ".*login" \) -exec ls -l {} \; 2>/dev/null > BackData/14
+find / -type f -perm -2 -exec ls -l {} \; 2>/dev/null > BackData/15
 
+ls -l /etc/passwd /etc/shadow /etc/hosts /etc/inetd.conf /etc/xinetd.conf /etc/xinetd.d /etc/syslog.conf /etc/rsyslog.conf /etc/services 

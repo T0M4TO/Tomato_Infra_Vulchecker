@@ -159,7 +159,7 @@ echo 2,2,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.3 /etc/passwd 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/passwd 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/passwd 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -176,7 +176,7 @@ echo 2,3,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.4 /etc/shadow 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/shadow 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/shadow 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -191,7 +191,7 @@ echo 2,4,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.5 /etc/hosts 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/hosts 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/hosts 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -208,7 +208,7 @@ echo "------------------------------------------------------------------------";
 echo "2.6 /etc/(x)inetd.conf 파일 소유자 및 권한 설정";
 tmp=`ls /etc/inetd.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/inetd.conf | awk 'NR-1' | awk '{if($3!="root" || $1!="rw-------." || $1!="r--------." || $1!="---------"){print $0}}'`;
+	tmp=`ls -l /etc/inetd.conf | awk '{if($3!="root" || $1!="rw-------." || $1!="r--------." || $1!="---------"){print $0}}'`;
 	if [ "$tmp" == "" ]; then
 		echo "양호";
 		result=1;
@@ -237,7 +237,7 @@ else
 		else
 			echo "취약(xinetd.conf, xinetd.d 밑 하위 파일들의 권한 또는 소유자가 부적절함)";
 			result=2;
-			reason="(xinetd.conf, xinetd.d 밑 하위 파일들의 권한 또는 소유자가      부적절함)";
+			reason="(xinetd.conf\/xinetd.d 밑 하위 파일들의 권한 또는 소유자가      부적절함)";
 			echo "$tmp";
 		fi
 	fi
@@ -248,7 +248,7 @@ echo "------------------------------------------------------------------------";
 echo "2.7 /etc/syslog.conf 파일 소유자 및 권한 설정";
 tmp=`ls /etc/syslog.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/syslog.conf | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+	tmp=`ls -l /etc/syslog.conf | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -267,7 +267,7 @@ else
 		echo "점검이 필요한 파일이 서버 내 존재하지 않음";
 		reason="점검이 필요한 파일이 서버 내 존재하지 않음";
 	else
-		tmp=`ls -l /etc/rsyslog.conf | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+		tmp=`ls -l /etc/rsyslog.conf | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 		if [ "$tmp" != "" ]; then
 			echo "양호";
 			result=1;
@@ -291,7 +291,7 @@ if [ "$tmp" == "" ];then
 	echo "점검이 필요한 파일이 서버 내 존재하지 않음";
 	reason="점검이 필요한 파일이 서버 내 존재하지 않음";
 else
-	tmp=`ls -l /etc/services | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+	tmp=`ls -l /etc/services | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -326,7 +326,7 @@ echo "수동진단 필요(passwd파일 내 홈 디렉터리 확인, 소유자가
 tmp=`find / -name "*.*sh*profile" 2>/dev/null -exec ls -l {} \; -o -name "*.*sh*rc" 2>/dev/null -exec ls -l {} \; | awk '{print $0}'; echo ""; cat /etc/passwd`;
 echo "$tmp";
 result=4;
-reason="(passwd파일 내 홈 디렉터리 확인, 소유자가 본인 또는 root/쓰기>     는 소유자만인지 확인)";
+reason="(passwd파일 내 홈 디렉터리 확인 후 소유자가 본인 또는 root\/쓰기는 소유자만인지 확인)";
 echo 2,10,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
@@ -360,7 +360,7 @@ if [ "$tmp" == "" ]; then
 else
 	echo "취약(Device  파일이 맞는지 확인 필요, OS 기본은 양호)";
 	result=2;
-	reason="(Device  파일이 맞는지 확인 필요, OS 기본은 양호)";
+	reason="(Device  파일이 맞는지 확인 필요\/ OS 기본은 양호)";
 	echo "$tmp";
 fi
 echo 2,12,$result,$reason >> $resultdir/result.csv;
@@ -376,7 +376,7 @@ else
 	result=1
 	tmp=`ls -l /etc/hosts.equiv 2>/dev/null`;
 	if [ "$tmp" != "" ]; then
-		tmp=`ls -l /etc/hosts.equiv 2>/dev/null | awk 'NR-1' | awk '{if($3=="root"){print $1}}' | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+		tmp=`ls -l /etc/hosts.equiv 2>/dev/null | awk '{if($3=="root"){print $1}}' | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 		if [ "$tmp" == "" ]; then
 			echo "hosts.equiv : 취약(권한 또는 소유자 설정이 취약함)";
 			result=2
@@ -392,7 +392,7 @@ else
 		else
 			echo "hosts.equiv : 취약(파일 내 + 가 존재함)";
 			result=2
-			reason=$reason"/hosts.equiv : 취약(파일 내 + 가 존재함)";
+			reason=$reason"\/hosts.equiv : 취약(파일 내 + 가 존재함)";
 			tmp=`ls -al /etc/hosts.equiv 2>/dev/null`;
 			echo "$tmp";
 		fi
@@ -409,7 +409,7 @@ else
 		if [ "$tmp" == "" ]; then
 			echo ".rhosts : 취약(권한 또는 소유자 설정이 취약함)";
 			result=2
-			reason=$reason"/.rhosts : 취약(권한 또는 소유자 설정이 취약함)";
+			reason=$reason"\/.rhosts : 취약(권한 또는 소유자 설정이 취약함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
 		fi
@@ -424,7 +424,7 @@ else
 		else
 			echo ".rhosts : 취약(파일 내 + 가 존재함)";
 			result=2
-			reason=$reason"/.rhosts : 취약(파일 내 + 가 존재함)";
+			reason=$reason"\/.rhosts : 취약(파일 내 + 가 존재함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
 		fi
@@ -443,7 +443,7 @@ echo "------------------------------------------------------------------------";
 echo "3. 서비스 관리";
 echo "------------------------------------------------------------------------";
 echo "3.1 Finger 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
 	tmp=`grep -i finger /etc/inetd.conf | grep "#"`
 	if [ "$tmp" != "" ]; then
@@ -459,7 +459,7 @@ if [ "$tmp" != "" ]; then
 		echo "$tmp";
 	fi
 else
-	tmp=`ls -l /etc/xinetd.d/finger 2>/dev/null | awk 'NR-1'`;
+	tmp=`ls -l /etc/xinetd.d/finger 2>/dev/null`;
 	if [ "$tmp" != "" ]; then
 		tmp=`grep -i disable /etc/xinetd.d/finger | grep -i yes`;
 		if [ "$tmp" != "" ]; then
@@ -487,12 +487,12 @@ echo "수동 진단 필요(정확히ftp로 된 계정과, Anonymous로 된 계�
 tmp=`cat /etc/passwd | grep -i -E "ftp:|anonymous"`;
 echo "$tmp";
 result=4;
-reason="(정확히ftp로 된 계정과, Anonymous로 된 계정 없는지 확인)";
+reason="(정확히ftp로 된 계정과 Anonymous로 된 계정 없는지 확인)";
 echo 3,2,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.3 r 계열 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
 	tmp=`cat /etc/inetd.conf | grep -i "rlogin\|rsh\|rexec" | grep -v "#"`;
 	if [ "$tmp" != "" ]; then
@@ -707,7 +707,7 @@ echo 3,10,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.11 tftp, talk 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
 	tmp=`cat /etc/inetd.conf | grep "tftp\|talk\|ntalk" | grep -v "#"`
 	if [ "$tmp" == "" ]; then
@@ -771,7 +771,7 @@ if [ "$tmp" == "" ]; then
 else
 	tmp=`cat /etc/mail/sendmail.cf | grep "R$\*" | grep "Relaying denied"`;
 	if [ "$tmp" != "" ]; then
-		tmp=`ls -l /etc/mail/access 2>/dev/null | awk 'NR-1'`;
+		tmp=`ls -l /etc/mail/access 2>/dev/null`;
 		if [ "$tmp" != "" ]; then
 			echo "수동진단 필요(access 파일 내 정보를 보고 제한되어있는지 확인)";
 			tmp=`cat /etc/mail/access`;
@@ -901,45 +901,36 @@ echo 1,5,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.6 root 계정 su 제한";
-tmp=`grep wheel /etc/group | cut -f 4 -d :`;
+tmp=`ls -l /usr/bin/su | awk '{if($4!="root"){print $0}}'`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/pam.d 2>/dev/null | awk 'NR-1'`;
+	tmp=`ls -l /usr/bin/su | awk '{print $1"\t"$9}' | grep -E "........x"`;
 	if [ "$tmp" == "" ]; then
-		tmp=`ls -l /usr/bin/su | awk 'NR-1' | awk '{print $1"\t"$9}' | grep -E "........x"`;
-		if [ "$tmp" == "" ]; then
-			echo "양호(other에게 실행권한을 주지않아 관리하고 있음)";
-			tmp=`ls -l /usr/bin/su`;
-			result=1;
-			reason="(other에게 실행권한을 주지않아 관리하고 있음)";
-			echo "$tmp";
-		else
-			echo "취약(other도 su를 실행할 권한을 가지고 있음)";
-			tmp=`ls -l /usr/bin/su`;
-			result=2;
-			reason="(other도 su를 실행할 권한을 가지고 있음)";
-			echo "$tmp";
-		fi
+		echo "양호(other에게 실행권한을 주지않고 특정 그룹만 사용하도록 관리하고 있음)";
+		tmp=`ls -l /usr/bin/su`;
+		result=1;
+		reason="(other에게 실행권한을 주지않고 특정 그룹만 사용하도록 관리하고 있음)";
+		echo "$tmp";
 	else
-		tmp=`cat /etc/pam.d/su | grep -E "auth.*required.*pam_wheel.so.*debug.*group=|auth.*required.*pam_wheel.so.*use_uid" | grep -v "#"`;
-		if [ "$tmp" != "" ]; then
-			echo "양호(pam 설정을 통해 관리하고 있음)";
-			result=1;
-			reason="(pam 설정을 통해 관리하고 있음)";
-			echo "$tmp";
-		else
-			echo "취약(pam 설정이 되어있지 않음)";
-			tmp=`cat /etc/pam.d/su`;
-			result=2;
-			reason="(pam 설정이 되어있지 않음)";
-			echo "$tmp";
-		fi
+		echo "취약(other도 su를 실행할 권한을 가지고 있음)";
+		tmp=`ls -l /usr/bin/su`;
+		result=2;
+		reason="(other도 su를 실행할 권한을 가지고 있음)";
+		echo "$tmp";
 	fi
 else
-	echo "취약(사용자가 설정된 그룹이 존재하지 않음)";
-	tmp=`cat /etc/group`;
-	result=2;
-	reason="(사용자가 설정된 그룹이 존재하지 않음)";
-	echo "$tmp";
+	tmp=`cat /etc/pam.d/su 2>/dev/null | grep -E "auth.*required.*pam_wheel.so.*debug.*group=|auth.*required.*pam_wheel.so.*use_uid" | grep -v "#"`;
+	if [ "$tmp" != "" ]; then
+		echo "양호(pam 설정을 통해 관리하고 있음)";
+		result=1;
+		reason="(pam 설정을 통해 관리하고 있음)";
+		echo "$tmp";
+	else
+		echo "취약(pam 설정이 되어있지 않음)";
+		tmp=`cat /etc/pam.d/su`;
+		result=2;
+		reason="(pam 설정이 되어있지 않음)";
+		echo "$tmp";
+	fi
 fi
 echo 1,6,$result,$reason >> $resultdir/result.csv;
 echo "";
@@ -1053,7 +1044,7 @@ echo 1,13,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.14 사용자 shell  점검";
-tmp=`cat /etc/passwd | awk -F: '{if($7!="/bin/nologin" && $7!="/sbin/nologin"){print $0}}'`;
+tmp=`cat /etc/passwd | awk -F: '{if($7!="/bin/nologin" && $7!="/sbin/nologin"){print $0}}' | grep -iE "/bin/.*sh"`;
 echo "수동진단 필요(로그인이 필요한 사유 회신받기)";
 result=4;
 reason="(로그인이 필요한 사유 회신받기)";
@@ -1064,7 +1055,7 @@ echo "------------------------------------------------------------------------";
 echo "1.15 Session Timeout 설정";
 tmp=`echo $SHELL`;
 if [ "$tmp" == "/bin/csh" ]; then
-	tmp=`ls -l /etc/csh.login 2>/dev/null | awk 'NR-1'`;
+	tmp=`ls -l /etc/csh.login 2>/dev/null`;
 	if [ "$tmp" != "" ]; then
 		tmp=`grep -i autologout /etc/csh.login | awk -F= '{print $2}' | sed "s/ //g"`;
 		if [ "$tmp" == "" ]; then
@@ -1085,7 +1076,7 @@ if [ "$tmp" == "/bin/csh" ]; then
 			echo "$tmp";
 		fi
 	else
-		tmp=`ls -l /etc/csh.cshrc 2>/dev/null | awk 'NR-1'`;
+		tmp=`ls -l /etc/csh.cshrc 2>/dev/null`;
 		if [ "$tmp" == "" ]; then
 			echo "취약(설정파일이 존재하지 않음)";
 			result=2;
@@ -1146,9 +1137,9 @@ echo "------------------------------------------------------------------------";
 echo "2. 파일 및 디렉토리 관리";
 echo "------------------------------------------------------------------------";
 echo "2.15 hosts.lpd 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/hosts.lpd 2>/dev/null`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk 'NR-1' | awk '{if($3=="root"){if($1=="-rw-------." || $1=="-r--------." || $1=="----------."){print $1"\t"$3}}}'`;
+	tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk '{if($3=="root"){if($1=="-rw-------." || $1=="-r--------." || $1=="----------."){print $1"\t"$3}}}'`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -1301,7 +1292,7 @@ if [ "$tmp" != "" ]; then
 	else
 		echo "취약(telnet은 양호하나, ftp가 사용중에 있음)";
 		result=2;
-		reason="(telnet은 양호하나, ftp가 사용중에 있음)";
+		reason="(telnet은 양호하나 ftp가 사용중에 있음)";
 		echo "$tmp";
 	fi
 else
@@ -1317,7 +1308,7 @@ else
 		else
 			echo "취약(telnet은 설치되어 있지 않으나, ftp가 사용중에 있음)";
 			result=2;
-			reason="(telnet은 설치되어 있지 않으나, ftp가 사용중에 있음)";
+			reason="(telnet은 설치되어 있지 않으나 ftp가 사용중에 있음)";
 			echo "$tmp";
 		fi
 		tmp=`systemctl status telnet.socket 2>/dev/null`;
@@ -1327,7 +1318,7 @@ else
 		if [ "$tmp" == "" ]; then
 			echo "취약(ftp는 비활성화 되어있으나, telnet가 사용중에 있음)";
 			result=2;
-			reason="(ftp는 비활성화 되어있으나, telnet가 사용중에 있음)";
+			reason="(ftp는 비활성화 되어있으나 telnet가 사용중에 있음)";
 			tmp=`systemctl status telnet.socket 2>/dev/null`;
 			echo "$tmp";
 			echo "";
@@ -1336,7 +1327,7 @@ else
 		else
 			echo "취약(telnet, ftp가 모두 사용중에 있음)";
 			result=2;
-			reason="(telnet, ftp가 모두 사용중에 있음)";
+			reason="(telnet과 ftp 모두 사용중에 있음)";
 			echo "$tmp";
 			echo "";
 			tmp=`systemctl status telnet.socket 2>/dev/null`;
@@ -1501,7 +1492,7 @@ if [ "$tmp" == "" ]; then
 else
 	echo "취약(snmp 구동중, 사용 사유 확인 필요)";
 	result=2;
-	reason="(snmp 구동중, 사용 사유 확인 필요)";
+	reason="(snmp 구동중이며 사용 사유 확인 필요)";
 	echo "$tmp";
 fi
 echo 3,30,$result,$reason >> $resultdir/result.csv;
@@ -1534,24 +1525,24 @@ echo 3,31,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.32 로그온 시 경고 메시지 제공";
-tmp=`ls -l /etc/motd 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/motd 2>/dev/null`;
 result=4
 reason="";
 if [ "$tmp" != "" ]; then
 	tmp=`grep "" /etc/motd`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(서버 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason"/(서버 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"\/(서버 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(서버 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason"/(서버 로그온 메시지 미설정됨)";
+		reason=$reason"\/(서버 로그온 메시지 미설정됨)";
 	fi
 else
 	echo "취약(서버 로그온 파일 존재하지 않음)";
 	result=2;
-	reason=$reason"/(서버 로그온 파일 존재하지 않음)";
+	reason=$reason"\/(서버 로그온 파일 존재하지 않음)";
 fi
 echo "";
 tmp=`systemctl status telnet.socket 2>/dev/null | grep -Ei "listening|dead"`;
@@ -1561,12 +1552,12 @@ else
 	tmp=`cat /etc/issue.net`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(telnet 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason"/(telnet 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"\/(telnet 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(telnet 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason"/(telnet 로그온 메시지 미설정됨)";
+		reason=$reason"\/(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
@@ -1577,28 +1568,28 @@ else
 	tmp=`cat /etc/vsftpd/vsftpd.conf | grep -v "#" | grep "ftpd_banner"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(vsftpd 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason"/(vsftpd 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"\/(vsftpd 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(vsftpd 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason"/(vsftpd 로그온 메시지 미설정됨)";
+		reason=$reason"\/(vsftpd 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
-tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null`;
 if [ "$tmp" == "" ]; then
 	echo "양호(sendmail 설치되어 있지 않음)";
 else
 	tmp=`cat /etc/mail/sendmail.cf | grep -v "#" | grep -i "GreetingMessage"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(sendmail 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason"/(sendmail 로그온 메시지 설정되어 수동진단 필요)"; 
+		reason=$reason"\/(sendmail 로그온 메시지 설정되어 수동진단 필요)"; 
 		echo "$tmp";
 	else
 		echo "취약(sendmail 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason"/(sendmail 로그온 메시지 미설정됨)";
+		reason=$reason"\/(sendmail 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
@@ -1609,12 +1600,12 @@ else
 	tmp=`cat /etc/named.conf | grep -v "//" | grep -i "version"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason"/(DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"\/(DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(telnet 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason"/(telnet 로그온 메시지 미설정됨)";
+		reason=$reason"\/(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
 echo 3,32,$result,$reason >> $resultdir/result.csv;
@@ -1623,7 +1614,7 @@ echo "------------------------------------------------------------------------";
 echo "3.33 NFS 설정파일 접근권한";
 result=1;
 reason="";
-tmp=`ls -l /etc/exports 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/exports 2>/dev/null`;
 if [ "$tmp" != "" ]; then
 	tmp=`echo "$tmp" | awk '{if($1=="-rw-r--r--." || $1=="-rw-r-----." || $1=="-rw-------." || $1=="-r--------." || $1=="----------." || $1=="-rw-r--r--" || $1=="-rw-r-----" || $1=="-rw-------" || $1=="-r--------" || $1=="----------"){print $0}}'`;
 	if [ "$tmp" != "" ]; then
@@ -1631,15 +1622,15 @@ if [ "$tmp" != "" ]; then
 	else
 		echo "취약(권한이 부적절하게 설정되어 있음)";
 		result=2;
-		reason=$reason"/(권한이 부적절하게 설정되어 있음)";
+		reason=$reason"\/(권한이 부적절하게 설정되어 있음)";
 	fi
-	tmp=`ls -l /etc/exports | awk 'NR-1' | awk '{if($3=="root"){print $0}}'`;
+	tmp=`ls -l /etc/exports | awk '{if($3=="root"){print $0}}'`;
 	if [ "$tmp" != "" ]; then
 		echo "양호(소유자가 적절히 설정되어있음)";
 	else
 		echo "취약(소유자가 부적절하게 설정되어 있음)";
 		result=2;
-		reason=$reason"/(소유자가 부적절하게 설정되어 있음)";
+		reason=$reason"\/(소유자가 부적절하게 설정되어 있음)";
 	fi
 	tmp=`ls -l /etc/exports`;
 	echo "$tmp";
@@ -1652,7 +1643,7 @@ echo 3,33,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.34 expn, vrfy 명령어 제한";
-tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null`;
 if [ "$tmp" == "" ]; then
 	echo "양호(sendmail 설치되어 있지 않음)";
 	result=1;
@@ -1662,7 +1653,7 @@ else
 	if [ "$tmp" != "" ]; then
 		echo "양호(expn, vrfy 명령어 제한 설정됨)";
 		result=1;
-		reason="(expn, vrfy 명령어 제한 설정됨)";
+		reason="(expn\/vrfy 명령어 제한 설정됨)";
 		echo "$tmp";
 	else
 		echo "취약(명령어 제한 미설정됨)";
@@ -1680,7 +1671,7 @@ echo "------------------------------------------------------------------------";
 echo "5.2 정책에 따른 시스템 로깅 설정";
 result=1;
 reason="";
-tmp=`ls -l /etc/syslog.conf 2>/dev/null | awk 'NR-1'`;
+tmp=`ls -l /etc/syslog.conf 2>/dev/null`;
 filenm="/etc/syslog.conf";
 if [ "$tmp" == "" ]; then
 	filenm="/etc/rsyslog.conf";
@@ -1691,7 +1682,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.info 미설정 되어있음)";
 	result=2;
-	reason=$reason"/(\*.info 미설정 되어있음)";
+	reason=$reason"\/(\*.info 미설정 되어있음)";
 fi
 tmp=`cat "$filenm" | grep -v "#" | grep -i "authpriv\.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1699,7 +1690,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(.authpriv.\* 미설정 되어있음)";
 	result=2;
-	reason=$reason"/(.authpriv.\* 미설정 되어있음)";
+	reason=$reason"\/(.authpriv.\* 미설정 되어있음)";
 fi
 tmp=`cat "$filenm" | grep -v "#" | grep -i "mail.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1707,7 +1698,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(mail.\*  미설정 되어있음)";
 	result=2;
-	reason=$reason"/(mail.\*  미설정 되어있음)";
+	reason=$reason"\/(mail.\*  미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "cron.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1715,7 +1706,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(cron.\* 미설정 되어있음)";
 	result=2;
-	reason=$reason"/(cron.\* 미설정 되어있음)";
+	reason=$reason"\/(cron.\* 미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "\*.alert"`;
 if [ "$tmp" != "" ]; then
@@ -1723,7 +1714,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.alert 미설정 되어있음)";
 	result=2;
-	reason=$reason"/(\*.alert 미설정 되어있음)";
+	reason=$reason"\/(\*.alert 미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "\*.emerg"`;
 if [ "$tmp" != "" ]; then
@@ -1731,7 +1722,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.emerg 미설정 되어있음)";
 	result=2;
-	reason=$reason"/(\*.emerg 미설정 되어있음)";
+	reason=$reason"\/(\*.emerg 미설정 되어있음)";
 fi
 echo "$filenm";
 tmp=`cat "$filenm" | grep -v "#" | grep -iE "\*.info;mail.none;authpriv.none;cron.none|authpriv.\*|mail.\*|cron.\*|\*.alert|\*.emerg"`;

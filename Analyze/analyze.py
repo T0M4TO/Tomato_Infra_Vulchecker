@@ -3,7 +3,17 @@
 import os
 import tarfile
 import sys
-import 
+import mysql.connector
+import configparser
+
+def connect_db():
+	config = configparser.ConfigParser()
+	config.read("sql.ini")
+	conn = mysql.connector.connect(
+			host = 
+
+
+
 
 
 if len(sys.argv) != 2:

@@ -9,7 +9,7 @@ if [ "$EUID" != 0 ]; then
 resultdir=`date +%Y%m%d`
 resultdir=Result_$resultdir
 mkdir $resultdir
-
+echo "No","SubNo","Result","Reason" > $resultdir/result.csv;
 # Script Start
 echo "########################################################################";
 echo "#                      Infra Vulerability Checker                      #";
@@ -41,14 +41,14 @@ else
 	reason="(/etc/securetty 파일에 pts관련 설정이 존재함)"
 	echo "$tmp";
 fi
-echo 1,1,$result,$reason > $resultdir/result.csv;
+echo 1,1,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.2 패스워드 복잡성 설정";
 tmp_cnt=0;
 tmp_array=("lcredit" "dcredit" "ocredit");
 for chk in ${tmp_array[@]}; do
-	tmp=`grep -i $chk /etc/security/pwquality.conf | grep -v "#" | grep "\-1"`;
+	tmp=`grep -i $chk /etc/security/pwquality.conf 2>/dev/null | grep -v "#" | grep "\-1"`;
 	if [ "$tmp" != "" ]; then
 		tmp_cnt=`expr $tmp_cnt + 1`;
 	fi
@@ -75,8 +75,7 @@ echo 1,2,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.3 계정 잠금 임계값 설정";
-tmp=`grep -i tally /etc/pam.d/system-auth`
-tmp=`grep -i tally /etc/pam.d/system-auth | grep -v "#" | grep -i "required" | grep -i "auth" | grep -i "deny = [1-5]\|deny= [1-5]\|deny =[1-5]\|deny=[1-5]"`;
+tmp=`grep -i tally /etc/pam.d/system-auth 2>/dev/null | grep -v "#" | grep -i "required" | grep -i "auth" | grep -i "deny = [1-5]\|deny= [1-5]\|deny =[1-5]\|deny=[1-5]"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -93,7 +92,7 @@ echo 1,3,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.4 패스워드 파일 보호";
-tmp=`ls -al /etc/shadow`;
+tmp=`ls -al /etc/shadow 2>/dev/null`;
 if [ "$tmp" != "" ]; then
 	tmp=`cut -f 2 -d : /etc/passwd | grep -v -i "x"`;
 	if [ "$tmp" == "" ]; then
@@ -177,7 +176,7 @@ echo 2,3,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.4 /etc/shadow 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/shadow | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/shadow 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -192,7 +191,7 @@ echo 2,4,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.5 /etc/hosts 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/hosts | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/hosts 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -346,11 +345,11 @@ fi
 echo 2,11,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
-echo "2.12 사용자, 시스템 시작파일 및 환경파일 소유자 및 권한 설정";
+echo "2.12 /dev에 존재하지 않는 device 파일 점검";
 tmp=`ls -l /dev | awk '{if($10==""){print $0}}'`;
-safe_device_array=($(cat safe_device_file_list));
+safe_device_array=($(cat centos7_default_devicefile));
 for safe_device in ${safe_device_array[@]}; do
-	tmp=`echo "$tmp" | awk '{if($9=="'$safe_device'"){print $0}}'`;
+	tmp=`echo "$tmp" | awk '{if($9!="'$safe_device'"){print $0}}'`;
 done
 if [ "$tmp" == "" ]; then
 	echo "양호(major minor 번호가 없는 device 없음)";
@@ -1263,8 +1262,12 @@ echo "";
 echo "------------------------------------------------------------------------";
 echo "2.20 숨겨진 파일 및 디렉토리 검색 및 제거";
 tmp=`find / -name ".*" 2>/dev/null`;
-safe_file_array=($(cat safe_hidden_file_list));
+safe_file_array=($(cat centos7_default_hiddenfile));
+safe_dir_array=($(cat centos7_default_hiddendir));
 for safe_file in ${safe_file_array[@]}; do
+	tmp=`echo "$tmp" | grep -v -i "$safe_file"`;
+done
+for safe_file in ${safe_dir_array[@]}; do
 	tmp=`echo "$tmp" | grep -v -i "$safe_file"`;
 done
 if [ "$tmp" == "" ]; then

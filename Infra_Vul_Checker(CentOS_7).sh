@@ -159,7 +159,7 @@ echo 2,2,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.3 /etc/passwd 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/passwd | awk '{print $1 $3}' | grep -i "root" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/passwd 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -176,7 +176,7 @@ echo 2,3,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.4 /etc/shadow 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/shadow 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/shadow 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -191,7 +191,7 @@ echo 2,4,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.5 /etc/hosts 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/hosts 2>/dev/null | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+tmp=`ls -l /etc/hosts 2>/dev/null | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root" | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
@@ -208,7 +208,7 @@ echo "------------------------------------------------------------------------";
 echo "2.6 /etc/(x)inetd.conf 파일 소유자 및 권한 설정";
 tmp=`ls /etc/inetd.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/inetd.conf | awk '{if($3!="root" || $1!="rw-------." || $1!="r--------." || $1!="---------"){print $0}}'`;
+	tmp=`ls -l /etc/inetd.conf | awk 'NR-1' | awk '{if($3!="root" || $1!="rw-------." || $1!="r--------." || $1!="---------"){print $0}}'`;
 	if [ "$tmp" == "" ]; then
 		echo "양호";
 		result=1;
@@ -248,7 +248,7 @@ echo "------------------------------------------------------------------------";
 echo "2.7 /etc/syslog.conf 파일 소유자 및 권한 설정";
 tmp=`ls /etc/syslog.conf 2>/dev/null`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/syslog.conf | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+	tmp=`ls -l /etc/syslog.conf | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -267,7 +267,7 @@ else
 		echo "점검이 필요한 파일이 서버 내 존재하지 않음";
 		reason="점검이 필요한 파일이 서버 내 존재하지 않음";
 	else
-		tmp=`ls -l /etc/rsyslog.conf | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+		tmp=`ls -l /etc/rsyslog.conf | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 		if [ "$tmp" != "" ]; then
 			echo "양호";
 			result=1;
@@ -291,7 +291,7 @@ if [ "$tmp" == "" ];then
 	echo "점검이 필요한 파일이 서버 내 존재하지 않음";
 	reason="점검이 필요한 파일이 서버 내 존재하지 않음";
 else
-	tmp=`ls -l /etc/services | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+	tmp=`ls -l /etc/services | awk 'NR-1' | awk '{print $1 $3}' | grep -i "root\|bin\|sys" | grep -i "\-rw\-r\-\-r\-\-\|rw\-r\-\-\-\-\-\|rw\-\-\-\-\-\-\-\|r\-\-r\-\-r\-\-\|r\-\-r\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -346,7 +346,7 @@ echo 2,11,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.12 /dev에 존재하지 않는 device 파일 점검";
-tmp=`ls -l /dev | awk '{if($10==""){print $0}}'`;
+tmp=`ls -l /dev | awk 'NR-1' | awk '{if($10==""){print $0}}'`;
 safe_device_array=($(cat OS_Default_Data/centos7/centos7_default_devicefile));
 for safe_device in ${safe_device_array[@]}; do
 	tmp=`echo "$tmp" | awk '{if($9!="'$safe_device'"){print $0}}'`;
@@ -376,7 +376,7 @@ else
 	result=1
 	tmp=`ls -l /etc/hosts.equiv 2>/dev/null`;
 	if [ "$tmp" != "" ]; then
-		tmp=`ls -l /etc/hosts.equiv 2>/dev/null | awk '{if($3=="root"){print $1}}' | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
+		tmp=`ls -l /etc/hosts.equiv 2>/dev/null | awk 'NR-1' | awk '{if($3=="root"){print $1}}' | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 		if [ "$tmp" == "" ]; then
 			echo "hosts.equiv : 취약(권한 또는 소유자 설정이 취약함)";
 			result=2
@@ -443,7 +443,7 @@ echo "------------------------------------------------------------------------";
 echo "3. 서비스 관리";
 echo "------------------------------------------------------------------------";
 echo "3.1 Finger 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" != "" ]; then
 	tmp=`grep -i finger /etc/inetd.conf | grep "#"`
 	if [ "$tmp" != "" ]; then
@@ -459,7 +459,7 @@ if [ "$tmp" != "" ]; then
 		echo "$tmp";
 	fi
 else
-	tmp=`ls -l /etc/xinetd.d/finger 2>/dev/null`;
+	tmp=`ls -l /etc/xinetd.d/finger 2>/dev/null | awk 'NR-1'`;
 	if [ "$tmp" != "" ]; then
 		tmp=`grep -i disable /etc/xinetd.d/finger | grep -i yes`;
 		if [ "$tmp" != "" ]; then
@@ -492,7 +492,7 @@ echo 3,2,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.3 r 계열 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" != "" ]; then
 	tmp=`cat /etc/inetd.conf | grep -i "rlogin\|rsh\|rexec" | grep -v "#"`;
 	if [ "$tmp" != "" ]; then
@@ -707,7 +707,7 @@ echo 3,10,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.11 tftp, talk 서비스 비활성화";
-tmp=`ls -l /etc/inetd.conf 2>/dev/null`;
+tmp=`ls -l /etc/inetd.conf 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" != "" ]; then
 	tmp=`cat /etc/inetd.conf | grep "tftp\|talk\|ntalk" | grep -v "#"`
 	if [ "$tmp" == "" ]; then
@@ -771,7 +771,7 @@ if [ "$tmp" == "" ]; then
 else
 	tmp=`cat /etc/mail/sendmail.cf | grep "R$\*" | grep "Relaying denied"`;
 	if [ "$tmp" != "" ]; then
-		tmp=`ls -l /etc/mail/access 2>/dev/null`;
+		tmp=`ls -l /etc/mail/access 2>/dev/null | awk 'NR-1'`;
 		if [ "$tmp" != "" ]; then
 			echo "수동진단 필요(access 파일 내 정보를 보고 제한되어있는지 확인)";
 			tmp=`cat /etc/mail/access`;
@@ -903,9 +903,9 @@ echo "------------------------------------------------------------------------";
 echo "1.6 root 계정 su 제한";
 tmp=`grep wheel /etc/group | cut -f 4 -d :`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/pam.d 2>/dev/null`;
+	tmp=`ls -l /etc/pam.d 2>/dev/null | awk 'NR-1'`;
 	if [ "$tmp" == "" ]; then
-		tmp=`ls -l /usr/bin/su | awk '{print $1"\t"$9}' | grep -E "........x"`;
+		tmp=`ls -l /usr/bin/su | awk 'NR-1' | awk '{print $1"\t"$9}' | grep -E "........x"`;
 		if [ "$tmp" == "" ]; then
 			echo "양호(other에게 실행권한을 주지않아 관리하고 있음)";
 			tmp=`ls -l /usr/bin/su`;
@@ -1064,7 +1064,7 @@ echo "------------------------------------------------------------------------";
 echo "1.15 Session Timeout 설정";
 tmp=`echo $SHELL`;
 if [ "$tmp" == "/bin/csh" ]; then
-	tmp=`ls -l /etc/csh.login 2>/dev/null`;
+	tmp=`ls -l /etc/csh.login 2>/dev/null | awk 'NR-1'`;
 	if [ "$tmp" != "" ]; then
 		tmp=`grep -i autologout /etc/csh.login | awk -F= '{print $2}' | sed "s/ //g"`;
 		if [ "$tmp" == "" ]; then
@@ -1085,7 +1085,7 @@ if [ "$tmp" == "/bin/csh" ]; then
 			echo "$tmp";
 		fi
 	else
-		tmp=`ls -l /etc/csh.cshrc 2>/dev/null`;
+		tmp=`ls -l /etc/csh.cshrc 2>/dev/null | awk 'NR-1'`;
 		if [ "$tmp" == "" ]; then
 			echo "취약(설정파일이 존재하지 않음)";
 			result=2;
@@ -1146,9 +1146,9 @@ echo "------------------------------------------------------------------------";
 echo "2. 파일 및 디렉토리 관리";
 echo "------------------------------------------------------------------------";
 echo "2.15 hosts.lpd 파일 소유자 및 권한 설정";
-tmp=`ls -l /etc/hosts.lpd 2>/dev/null`;
+tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" != "" ]; then
-	tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk '{if($3=="root"){if($1=="-rw-------." || $1=="-r--------." || $1=="----------."){print $1"\t"$3}}}'`;
+	tmp=`ls -l /etc/hosts.lpd 2>/dev/null | awk 'NR-1' | awk '{if($3=="root"){if($1=="-rw-------." || $1=="-r--------." || $1=="----------."){print $1"\t"$3}}}'`;
 	if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
@@ -1534,7 +1534,7 @@ echo 3,31,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.32 로그온 시 경고 메시지 제공";
-tmp=`ls -l /etc/motd 2>/dev/null`;
+tmp=`ls -l /etc/motd 2>/dev/null | awk 'NR-1'`;
 result=4
 reason="";
 if [ "$tmp" != "" ]; then
@@ -1586,7 +1586,7 @@ else
 	fi
 fi
 echo "";
-tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null`;
+tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" == "" ]; then
 	echo "양호(sendmail 설치되어 있지 않음)";
 else
@@ -1623,7 +1623,7 @@ echo "------------------------------------------------------------------------";
 echo "3.33 NFS 설정파일 접근권한";
 result=1;
 reason="";
-tmp=`ls -l /etc/exports 2>/dev/null`;
+tmp=`ls -l /etc/exports 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" != "" ]; then
 	tmp=`echo "$tmp" | awk '{if($1=="-rw-r--r--." || $1=="-rw-r-----." || $1=="-rw-------." || $1=="-r--------." || $1=="----------." || $1=="-rw-r--r--" || $1=="-rw-r-----" || $1=="-rw-------" || $1=="-r--------" || $1=="----------"){print $0}}'`;
 	if [ "$tmp" != "" ]; then
@@ -1633,7 +1633,7 @@ if [ "$tmp" != "" ]; then
 		result=2;
 		reason=$reason"/(권한이 부적절하게 설정되어 있음)";
 	fi
-	tmp=`ls -l /etc/exports | awk '{if($3=="root"){print $0}}'`;
+	tmp=`ls -l /etc/exports | awk 'NR-1' | awk '{if($3=="root"){print $0}}'`;
 	if [ "$tmp" != "" ]; then
 		echo "양호(소유자가 적절히 설정되어있음)";
 	else
@@ -1652,7 +1652,7 @@ echo 3,33,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.34 expn, vrfy 명령어 제한";
-tmp=`ls -l 2>/dev/null /etc/mail/sendmail.cf`;
+tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null | awk 'NR-1'`;
 if [ "$tmp" == "" ]; then
 	echo "양호(sendmail 설치되어 있지 않음)";
 	result=1;
@@ -1680,7 +1680,7 @@ echo "------------------------------------------------------------------------";
 echo "5.2 정책에 따른 시스템 로깅 설정";
 result=1;
 reason="";
-tmp=`ls -l /etc/syslog.conf 2>/dev/null`;
+tmp=`ls -l /etc/syslog.conf 2>/dev/null | awk 'NR-1'`;
 filenm="/etc/syslog.conf";
 if [ "$tmp" == "" ]; then
 	filenm="/etc/rsyslog.conf";

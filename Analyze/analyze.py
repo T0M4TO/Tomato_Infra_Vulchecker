@@ -10,8 +10,7 @@ def connect_db():
 	config = configparser.ConfigParser()
 	config.read("sql.ini")
 	conn = mysql.connector.connect(
-			host = 
-
+			host = config.get("HOST
 
 
 

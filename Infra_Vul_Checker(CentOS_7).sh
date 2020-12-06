@@ -6,7 +6,7 @@ if [ "$EUID" != 0 ]; then
 	exit
 	fi
 # Make Result Directory
-resultdir=`date +%Y%m%d`
+resultdir=`date +%Y%m%d_%H%M%S`
 resultdir=Result_$resultdir
 mkdir $resultdir
 echo "No","SubNo","Result","Reason" > $resultdir/result.csv;
@@ -347,7 +347,7 @@ echo "";
 echo "------------------------------------------------------------------------";
 echo "2.12 /dev에 존재하지 않는 device 파일 점검";
 tmp=`ls -l /dev | awk '{if($10==""){print $0}}'`;
-safe_device_array=($(cat centos7_default_devicefile));
+safe_device_array=($(cat OS_Default_Data/centos7/centos7_default_devicefile));
 for safe_device in ${safe_device_array[@]}; do
 	tmp=`echo "$tmp" | awk '{if($9!="'$safe_device'"){print $0}}'`;
 done
@@ -392,7 +392,7 @@ else
 		else
 			echo "hosts.equiv : 취약(파일 내 + 가 존재함)";
 			result=2
-			reason=$reason" / hosts.equiv : 취약(파일 내 + 가 존재함)";
+			reason=$reason"/hosts.equiv : 취약(파일 내 + 가 존재함)";
 			tmp=`ls -al /etc/hosts.equiv 2>/dev/null`;
 			echo "$tmp";
 		fi
@@ -409,7 +409,7 @@ else
 		if [ "$tmp" == "" ]; then
 			echo ".rhosts : 취약(권한 또는 소유자 설정이 취약함)";
 			result=2
-			reason=$reason" / .rhosts : 취약(권한 또는 소유자 설정이 취약함)";
+			reason=$reason"/.rhosts : 취약(권한 또는 소유자 설정이 취약함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
 		fi
@@ -424,7 +424,7 @@ else
 		else
 			echo ".rhosts : 취약(파일 내 + 가 존재함)";
 			result=2
-			reason=$reason" / .rhosts : 취약(파일 내 + 가 존재함)";
+			reason=$reason"/.rhosts : 취약(파일 내 + 가 존재함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
 		fi
@@ -1262,8 +1262,8 @@ echo "";
 echo "------------------------------------------------------------------------";
 echo "2.20 숨겨진 파일 및 디렉토리 검색 및 제거";
 tmp=`find / -name ".*" 2>/dev/null`;
-safe_file_array=($(cat centos7_default_hiddenfile));
-safe_dir_array=($(cat centos7_default_hiddendir));
+safe_file_array=($(cat OS_Default_Data/centos7/centos7_default_hiddenfile));
+safe_dir_array=($(cat OS_Default_Data/centos7/centos7_default_hiddendir));
 for safe_file in ${safe_file_array[@]}; do
 	tmp=`echo "$tmp" | grep -v -i "$safe_file"`;
 done
@@ -1541,17 +1541,17 @@ if [ "$tmp" != "" ]; then
 	tmp=`grep "" /etc/motd`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(서버 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason" / (서버 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"/(서버 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(서버 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason" / (서버 로그온 메시지 미설정됨)";
+		reason=$reason"/(서버 로그온 메시지 미설정됨)";
 	fi
 else
 	echo "취약(서버 로그온 파일 존재하지 않음)";
 	result=2;
-	reason=$reason" / (서버 로그온 파일 존재하지 않음)";
+	reason=$reason"/(서버 로그온 파일 존재하지 않음)";
 fi
 echo "";
 tmp=`systemctl status telnet.socket 2>/dev/null | grep -Ei "listening|dead"`;
@@ -1561,12 +1561,12 @@ else
 	tmp=`cat /etc/issue.net`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(telnet 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason" / (telnet 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"/(telnet 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(telnet 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason" / (telnet 로그온 메시지 미설정됨)";
+		reason=$reason"/(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
@@ -1577,12 +1577,12 @@ else
 	tmp=`cat /etc/vsftpd/vsftpd.conf | grep -v "#" | grep "ftpd_banner"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(vsftpd 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason" / (vsftpd 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"/(vsftpd 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(vsftpd 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason" / (vsftpd 로그온 메시지 미설정됨)";
+		reason=$reason"/(vsftpd 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
@@ -1593,12 +1593,12 @@ else
 	tmp=`cat /etc/mail/sendmail.cf | grep -v "#" | grep -i "GreetingMessage"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(sendmail 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason" / (sendmail 로그온 메시지 설정되어 수동진단 필요)"; 
+		reason=$reason"/(sendmail 로그온 메시지 설정되어 수동진단 필요)"; 
 		echo "$tmp";
 	else
 		echo "취약(sendmail 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason" / (sendmail 로그온 메시지 미설정됨)";
+		reason=$reason"/(sendmail 로그온 메시지 미설정됨)";
 	fi
 fi
 echo "";
@@ -1609,12 +1609,12 @@ else
 	tmp=`cat /etc/named.conf | grep -v "//" | grep -i "version"`;
 	if [ "$tmp" != "" ]; then
 		echo "수동진단(DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
-		reason=$reason" / (DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
+		reason=$reason"/(DNS 서버 로그온 메시지 설정되어 수동진단 필요)";
 		echo "$tmp";
 	else
 		echo "취약(telnet 로그온 메시지 미설정됨)";
 		result=2;
-		reason=$reason" / (telnet 로그온 메시지 미설정됨)";
+		reason=$reason"/(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
 echo 3,32,$result,$reason >> $resultdir/result.csv;
@@ -1631,7 +1631,7 @@ if [ "$tmp" != "" ]; then
 	else
 		echo "취약(권한이 부적절하게 설정되어 있음)";
 		result=2;
-		reason=$reason" / (권한이 부적절하게 설정되어 있음)";
+		reason=$reason"/(권한이 부적절하게 설정되어 있음)";
 	fi
 	tmp=`ls -l /etc/exports | awk '{if($3=="root"){print $0}}'`;
 	if [ "$tmp" != "" ]; then
@@ -1639,7 +1639,7 @@ if [ "$tmp" != "" ]; then
 	else
 		echo "취약(소유자가 부적절하게 설정되어 있음)";
 		result=2;
-		reason=$reason" / (소유자가 부적절하게 설정되어 있음)";
+		reason=$reason"/(소유자가 부적절하게 설정되어 있음)";
 	fi
 	tmp=`ls -l /etc/exports`;
 	echo "$tmp";
@@ -1691,7 +1691,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.info 미설정 되어있음)";
 	result=2;
-	reason=$reason" / (\*.info 미설정 되어있음)";
+	reason=$reason"/(\*.info 미설정 되어있음)";
 fi
 tmp=`cat "$filenm" | grep -v "#" | grep -i "authpriv\.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1699,7 +1699,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(.authpriv.\* 미설정 되어있음)";
 	result=2;
-	reason=$reason" / (.authpriv.\* 미설정 되어있음)";
+	reason=$reason"/(.authpriv.\* 미설정 되어있음)";
 fi
 tmp=`cat "$filenm" | grep -v "#" | grep -i "mail.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1707,7 +1707,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(mail.\*  미설정 되어있음)";
 	result=2;
-	reason=$reason" / (mail.\*  미설정 되어있음)";
+	reason=$reason"/(mail.\*  미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "cron.\*"`;
 if [ "$tmp" != "" ]; then
@@ -1715,7 +1715,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(cron.\* 미설정 되어있음)";
 	result=2;
-	reason=$reason" / (cron.\* 미설정 되어있음)";
+	reason=$reason"/(cron.\* 미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "\*.alert"`;
 if [ "$tmp" != "" ]; then
@@ -1723,7 +1723,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.alert 미설정 되어있음)";
 	result=2;
-	reason=$reason" / (\*.alert 미설정 되어있음)";
+	reason=$reason"/(\*.alert 미설정 되어있음)";
 fi   
 tmp=`cat "$filenm" | grep -v "#" | grep -i "\*.emerg"`;
 if [ "$tmp" != "" ]; then
@@ -1731,7 +1731,7 @@ if [ "$tmp" != "" ]; then
 else
 	echo "취약(\*.emerg 미설정 되어있음)";
 	result=2;
-	reason=$reason" / (\*.emerg 미설정 되어있음)";
+	reason=$reason"/(\*.emerg 미설정 되어있음)";
 fi
 echo "$filenm";
 tmp=`cat "$filenm" | grep -v "#" | grep -iE "\*.info;mail.none;authpriv.none;cron.none|authpriv.\*|mail.\*|cron.\*|\*.alert|\*.emerg"`;

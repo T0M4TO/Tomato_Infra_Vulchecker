@@ -195,7 +195,7 @@ else
 	result=2;
 	reason="(shadow파일의 권한 또는 소유자가 부적절함)";
 fi
-tmp=`ls -l /etc/shadow | awk '{print $0}'
+tmp=`ls -l /etc/shadow | awk '{print $0}'`
 echo "$tmp";
 echo "U-08",2,4,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-08;

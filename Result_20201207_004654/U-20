@@ -1,0 +1,2 @@
+ftp:x:14:50:FTP User:/var/ftp:/sbin/nologin
+nfsnobody:x:65534:65534:Anonymous NFS User:/var/lib/nfs:/sbin/nologin

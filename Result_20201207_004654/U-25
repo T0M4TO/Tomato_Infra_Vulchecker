@@ -1,0 +1,128 @@
+UID        PID  PPID  C STIME TTY          TIME CMD
+root         1     0  0 12월06 ?      00:00:04 /usr/lib/systemd/systemd --switched-root --system --deserialize 22
+root       335     1  0 12월06 ?      00:00:00 /usr/lib/systemd/systemd-journald
+root       352     1  0 12월06 ?      00:00:00 /usr/sbin/lvmetad -f
+root       367     1  0 12월06 ?      00:00:00 /usr/lib/systemd/systemd-udevd
+root       477     1  0 12월06 ?      00:00:00 /sbin/auditd
+root       479   477  0 12월06 ?      00:00:00 /sbin/audispd
+root       481   479  0 12월06 ?      00:00:00 /usr/sbin/sedispatch
+rpc        506     1  0 12월06 ?      00:00:00 /sbin/rpcbind -w
+dbus       508     1  0 12월06 ?      00:00:01 /usr/bin/dbus-daemon --system --address=systemd: --nofork --nopidfile --systemd-activation
+avahi      509   505  0 12월06 ?      00:00:00 avahi-daemon: chroot helper
+root       512     1  0 12월06 ?      00:00:01 /sbin/rngd -f
+root       514     1  0 12월06 ?      00:00:00 /usr/sbin/abrtd -d -s
+root       517     1  0 12월06 ?      00:00:00 /usr/bin/abrt-watch-log -F BUG: WARNING: at WARNING: CPU: INFO: possible recursive locking detected ernel BUG at list_del corruption list_add corruption do_IRQ: stack overflow: ear stack overflow (cur: eneral protection fault nable to handle kernel ouble fault: RTNL: assertion failed eek! page_mapcount(page) went negative! adness at NETDEV WATCHDOG ysctl table check failed : nobody cared IRQ handler type mismatch Kernel panic - not syncing: Machine Check Exception: Machine check events logged divide error: bounds: coprocessor segment overrun: invalid TSS: segment not present: invalid opcode: alignment check: stack segment: fpu exception: simd exception: iret exception: /var/log/messages -- /usr/bin/abrt-dump-oops -xtD
+root       518     1  0 12월06 ?      00:00:00 /usr/bin/abrt-watch-log -F Backtrace /var/log/Xorg.0.log -- /usr/bin/abrt-dump-xorg -xD
+root       525     1  0 12월06 ?      00:00:00 /usr/sbin/gssproxy -D
+libstor+   527     1  0 12월06 ?      00:00:00 /usr/bin/lsmd -d
+chrony     532     1  0 12월06 ?      00:00:00 /usr/sbin/chronyd
+root       534     1  0 12월06 ?      00:00:00 /usr/libexec/accounts-daemon
+root       544     1  0 12월06 ?      00:00:00 /usr/libexec/udisks2/udisksd
+polkitd    545     1  0 12월06 ?      00:00:05 /usr/lib/polkit-1/polkitd --no-debug
+root       548     1  0 12월06 ?      00:00:00 /usr/sbin/smartd -n -q never
+rtkit      549     1  0 12월06 ?      00:00:00 /usr/libexec/rtkit-daemon
+root       551     1  0 12월06 ?      00:00:00 /usr/lib/systemd/systemd-logind
+root       552     1  0 12월06 ?      00:00:00 /usr/sbin/ModemManager
+root       554     1  0 12월06 ?      00:00:00 /usr/sbin/alsactl -s -n 19 -c -E ALSA_CONFIG_PATH=/etc/alsa/alsactl.conf --initfile=/lib/alsa/init/00main rdaemon
+root       586     1  0 12월06 ?      00:00:00 /usr/bin/python2 -Es /usr/sbin/firewalld --nofork --nopid
+root       598     1  0 12월06 ?      00:00:00 /bin/bash /usr/sbin/ksmtuned
+root       610     1  0 12월06 ?      00:00:00 /usr/sbin/NetworkManager --no-daemon
+root       758   610  0 12월06 ?      00:00:00 /sbin/dhclient -d -q -sf /usr/libexec/nm-dhcp-helper -pf /var/run/dhclient-enp0s3.pid -lf /var/lib/NetworkManager/dhclient-b76a189a-7936-46b8-a350-0586d929c246-enp0s3.lease -cf /var/lib/NetworkManager/dhclient-enp0s3.conf enp0s3
+root       956     1  0 12월06 ?      00:00:00 /usr/sbin/cupsd -f
+root       957     1  0 12월06 ?      00:00:00 /usr/sbin/sshd -D
+root       958     1  0 12월06 ?      00:00:02 /usr/bin/python2 -Es /usr/sbin/tuned -l -P
+root       961     1  0 12월06 ?      00:00:01 /usr/sbin/rsyslogd -n
+root       970     1  0 12월06 ?      00:00:00 /usr/sbin/libvirtd
+root       983     1  0 12월06 ?      00:00:00 /usr/sbin/atd -f
+root       984     1  0 12월06 ?      00:00:00 /usr/sbin/crond -n
+root       986     1  0 12월06 ?      00:00:00 /usr/sbin/gdm
+root      1032   986  0 12월06 tty1   00:00:10 /usr/bin/X :0 -background none -noreset -audit 4 -verbose -auth /run/gdm/auth-for-gdm-dIJZPk/database -seat seat0 -nolisten tcp vt1
+nobody    1365     1  0 12월06 ?      00:00:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+root      1366  1365  0 12월06 ?      00:00:00 /usr/sbin/dnsmasq --conf-file=/var/lib/libvirt/dnsmasq/default.conf --leasefile-ro --dhcp-script=/usr/libexec/libvirt_leaseshelper
+root      1471     1  0 12월06 ?      00:00:00 /usr/libexec/postfix/master -w
+postfix   1479  1471  0 12월06 ?      00:00:00 qmgr -l -t unix -u
+root      1655     1  0 12월06 ?      00:00:00 /usr/libexec/upowerd
+root      1708     1  0 12월06 ?      00:00:00 /usr/libexec/boltd
+root      1715     1  0 12월06 ?      00:00:00 /usr/libexec/packagekitd
+root      1720     1  0 12월06 ?      00:00:00 /usr/sbin/wpa_supplicant -u -f /var/log/wpa_supplicant.log -c /etc/wpa_supplicant/wpa_supplicant.conf -P /var/run/wpa_supplicant.pid
+colord    1808     1  0 12월06 ?      00:00:00 /usr/libexec/colord
+hyeonjun  1924     1  0 12월06 ?      00:00:00 /usr/bin/gnome-keyring-daemon --daemonize --login
+hyeonjun  1937  1909  0 12월06 ?      00:00:00 /usr/libexec/gnome-session-binary --session gnome-classic
+hyeonjun  1948     1  0 12월06 ?      00:00:00 dbus-launch --sh-syntax --exit-with-session
+hyeonjun  1949     1  0 12월06 ?      00:00:00 /usr/bin/dbus-daemon --fork --print-pid 5 --print-address 7 --session
+hyeonjun  1976     1  0 12월06 ?      00:00:00 /usr/libexec/imsettings-daemon
+hyeonjun  1980     1  0 12월06 ?      00:00:00 /usr/libexec/gvfsd
+hyeonjun  1985     1  0 12월06 ?      00:00:00 /usr/libexec/gvfsd-fuse /run/user/1000/gvfs -f -o big_writes
+hyeonjun  2074  1937  0 12월06 ?      00:00:00 /usr/bin/ssh-agent /bin/sh -c exec -l /bin/bash -c "env GNOME_SHELL_SESSION_MODE=classic gnome-session --session gnome-classic"
+hyeonjun  2092     1  0 12월06 ?      00:00:00 /usr/libexec/at-spi-bus-launcher
+hyeonjun  2097  2092  0 12월06 ?      00:00:00 /usr/bin/dbus-daemon --config-file=/usr/share/defaults/at-spi2/accessibility.conf --nofork --print-address 3
+hyeonjun  2103     1  0 12월06 ?      00:00:00 /usr/libexec/at-spi2-registryd --use-gnome-session
+hyeonjun  2129  1937  0 12월06 ?      00:00:41 /usr/bin/gnome-shell
+hyeonjun  2139     1  0 12월06 ?      00:00:01 /usr/bin/pulseaudio --start --log-target=syslog
+hyeonjun  2154  2129  0 12월06 ?      00:00:03 ibus-daemon --xim --panel disable
+hyeonjun  2158  2154  0 12월06 ?      00:00:00 /usr/libexec/ibus-dconf
+hyeonjun  2163     1  0 12월06 ?      00:00:00 /usr/libexec/ibus-x11 --kill-daemon
+hyeonjun  2166     1  0 12월06 ?      00:00:00 /usr/libexec/ibus-portal
+hyeonjun  2175     1  0 12월06 ?      00:00:00 /usr/libexec/xdg-permission-store
+hyeonjun  2176     1  0 12월06 ?      00:00:00 /usr/libexec/gnome-shell-calendar-server
+hyeonjun  2192     1  0 12월06 ?      00:00:00 /usr/libexec/evolution-source-registry
+hyeonjun  2194     1  0 12월06 ?      00:00:00 /usr/libexec/dconf-service
+hyeonjun  2205     1  0 12월06 ?      00:00:00 /usr/libexec/mission-control-5
+hyeonjun  2209     1  0 12월06 ?      00:00:00 /usr/libexec/gvfs-udisks2-volume-monitor
+hyeonjun  2210     1  0 12월06 ?      00:00:00 /usr/libexec/goa-daemon
+hyeonjun  2222     1  0 12월06 ?      00:00:00 /usr/libexec/gvfs-gphoto2-volume-monitor
+hyeonjun  2236     1  0 12월06 ?      00:00:00 /usr/libexec/goa-identity-service
+hyeonjun  2241     1  0 12월06 ?      00:00:00 /usr/libexec/gvfs-afc-volume-monitor
+hyeonjun  2252     1  0 12월06 ?      00:00:00 /usr/libexec/gvfs-goa-volume-monitor
+hyeonjun  2278     1  0 12월06 ?      00:00:00 /usr/libexec/gvfs-mtp-volume-monitor
+hyeonjun  2287  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-power
+hyeonjun  2289  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-print-notifications
+hyeonjun  2293  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-rfkill
+hyeonjun  2298  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-screensaver-proxy
+hyeonjun  2305  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-sharing
+hyeonjun  2309  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-sound
+hyeonjun  2311  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-xsettings
+hyeonjun  2314  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-smartcard
+hyeonjun  2315  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-account
+hyeonjun  2325  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-wacom
+hyeonjun  2335  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-clipboard
+hyeonjun  2336  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-a11y-settings
+hyeonjun  2338  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-datetime
+hyeonjun  2344  1937  0 12월06 ?      00:00:01 /usr/libexec/gsd-color
+hyeonjun  2345  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-keyboard
+hyeonjun  2349  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-housekeeping
+hyeonjun  2352  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-mouse
+hyeonjun  2361  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-media-keys
+hyeonjun  2390     1  0 12월06 ?      00:00:00 /usr/libexec/gsd-printer
+hyeonjun  2408  1937  0 12월06 ?      00:00:01 nautilus-desktop --force
+hyeonjun  2410     1  0 12월06 ?      00:00:00 /usr/libexec/evolution-calendar-factory
+hyeonjun  2421  1980  0 12월06 ?      00:00:00 /usr/libexec/gvfsd-trash --spawner :1.4 /org/gtk/gvfs/exec_spaw/0
+hyeonjun  2432  1937  0 12월06 ?      00:00:02 /usr/bin/gnome-software --gapplication-service
+hyeonjun  2435  1937  0 12월06 ?      00:00:00 /usr/libexec/tracker-miner-apps
+hyeonjun  2439  2410  0 12월06 ?      00:00:00 /usr/libexec/evolution-calendar-factory-subprocess --factory all --bus-name org.gnome.evolution.dataserver.Subprocess.Backend.Calendarx2410x2 --own-path /org/gnome/evolution/dataserver/Subprocess/Backend/Calendar/2410/2
+hyeonjun  2441  1937  0 12월06 ?      00:00:00 /usr/bin/seapplet
+hyeonjun  2450  1937  0 12월06 ?      00:00:00 /usr/libexec/tracker-miner-fs
+hyeonjun  2454  1937  0 12월06 ?      00:00:00 /usr/libexec/tracker-miner-user-guides
+hyeonjun  2459  1937  0 12월06 ?      00:00:00 /usr/libexec/tracker-extract
+hyeonjun  2465  1937  0 12월06 ?      00:00:00 abrt-applet
+hyeonjun  2474  1937  0 12월06 ?      00:00:00 /usr/libexec/gsd-disk-utility-notify
+hyeonjun  2487     1  0 12월06 ?      00:00:00 /usr/libexec/evolution-addressbook-factory
+hyeonjun  2505  2154  0 12월06 ?      00:00:01 /usr/libexec/ibus-engine-simple
+hyeonjun  2518     1  0 12월06 ?      00:00:00 /usr/libexec/tracker-store
+hyeonjun  2531  2487  0 12월06 ?      00:00:00 /usr/libexec/evolution-addressbook-factory-subprocess --factory all --bus-name org.gnome.evolution.dataserver.Subprocess.Backend.AddressBookx2487x2 --own-path /org/gnome/evolution/dataserver/Subprocess/Backend/AddressBook/2487/2
+hyeonjun  2589  1980  0 12월06 ?      00:00:00 /usr/libexec/gvfsd-burn --spawner :1.4 /org/gtk/gvfs/exec_spaw/1
+root      2657     1  0 12월06 ?      00:00:00 /usr/libexec/fwupd/fwupd
+hyeonjun  2661     1  0 12월06 ?      00:00:00 /usr/libexec/gvfsd-metadata
+hyeonjun  2743     1  0 12월06 ?      00:00:06 /usr/libexec/gnome-terminal-server
+hyeonjun  2752  2743  0 12월06 ?      00:00:00 gnome-pty-helper
+hyeonjun  2754  2743  0 12월06 pts/0  00:00:00 bash
+hyeonjun  2833  2154  0 12월06 ?      00:00:00 /usr/libexec/ibus-engine-hangul --ibus
+root      3992  2754  0 12월06 pts/0  00:00:00 su
+root      3998  3992  0 12월06 pts/0  00:00:00 bash
+postfix  16288  1471  0 00:21 ?        00:00:00 pickup -l -t unix -u
+root     17955  3998  0 00:46 pts/0    00:00:00 sh Start.sh
+root     17958 17955  0 00:46 pts/0    00:00:00 sh Infra_Vul_Checker(CentOS_7).sh
+root     17959 17955  0 00:46 pts/0    00:00:00 tee log/log_20201207_004654
+root     18022   598  0 00:47 ?        00:00:00 sleep 60
+root     18245 17958  0 00:47 pts/0    00:00:00 sh Infra_Vul_Checker(CentOS_7).sh
+root     18246 18245  0 00:47 pts/0    00:00:00 ps -ef

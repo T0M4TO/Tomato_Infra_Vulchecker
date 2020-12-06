@@ -9,7 +9,7 @@ if [ "$EUID" != 0 ]; then
 resultdir=`date +%Y%m%d_%H%M%S`
 resultdir=Result_$resultdir
 mkdir $resultdir
-echo "No","SubNo","Result","Reason" > $resultdir/result.csv;
+echo "Code","No","SubNo","Result","Reason" > $resultdir/result.csv;
 # Script Start
 echo "########################################################################";
 echo "#                      Infra Vulerability Checker                      #";
@@ -41,7 +41,9 @@ else
 	reason="(/etc/securetty 파일에 pts관련 설정이 존재함)"
 	echo "$tmp";
 fi
-echo 1,1,$result,$reason >> $resultdir/result.csv;
+echo "U-01",1,1,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-01;
+echo 
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.2 패스워드 복잡성 설정";
@@ -71,7 +73,8 @@ else
 fi
 tmp=`cat /etc/security/pwquality.conf | grep -i "lcredit\|dcredit\|ocredit\|minlen"`;
 echo "$tmp";
-echo 1,2,$result,$reason >> $resultdir/result.csv;
+echo "U-02",1,2,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-02;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.3 계정 잠금 임계값 설정";
@@ -88,7 +91,8 @@ else
 	tmp=`cat /etc/pam.d/system-auth`;
 	echo "$tmp";
 fi
-echo 1,3,$result,$reason >> $resultdir/result.csv;
+echo "U-03",1,3,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-03;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.4 패스워드 파일 보호";
@@ -113,7 +117,8 @@ else
 	result=2;
 	reason="(shadow 파일이 존재하지 않음)";
 fi
-echo 1,4,$result,$reason >> $resultdir/result.csv;
+echo "U-04",1,4,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-04;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2. 파일 및 디렉토리 관리";
@@ -132,7 +137,8 @@ else
 	reason="(PATH 환경변수에 . 또는 :: 가 삽입되어 있음)";
 	echo "$tmp";
 fi
-echo 2,1,$result,$reason >> $resultdir/result.csv;
+echo "U-05",2,1,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-05;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.2 파일 및 디렉터리 소유자 설정";
@@ -155,7 +161,8 @@ else
 	reason="(소유자 또는 그룹이 없는 파일 또는 디렉터리 있음)";
 	echo "$tmp";
 fi
-echo 2,2,$result,$reason >> $resultdir/result.csv;
+echo "U-06",2,2,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-06;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.3 /etc/passwd 파일 소유자 및 권한 설정";
@@ -164,7 +171,8 @@ if [ "$tmp" != "" ]; then
 	echo "양호";
 	result=1;
 	reason="-";
-	echo `ls -l /etc/passwd`;
+	tmp=`ls -l /etc/passwd`;
+	echo "$tmp";
 else
 	echo "취약(passwd파일의 권한 또는 소유자가 부적절함)";
 	result=2;
@@ -172,7 +180,8 @@ else
 	tmp=`ls -l /etc/passwd | awk '{print $0}'`;
 	echo "$tmp";
 fi
-echo 2,3,$result,$reason >> $resultdir/result.csv;
+echo "U-07",2,3,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-07;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.4 /etc/shadow 파일 소유자 및 권한 설정";
@@ -185,9 +194,11 @@ else
 	echo "취약(shadow파일의 권한 또는 소유자가 부적절함)";
 	result=2;
 	reason="(shadow파일의 권한 또는 소유자가 부적절함)";
-fi	
-echo `ls -l /etc/shadow | awk '{print $0}'`;
-echo 2,4,$result,$reason >> $resultdir/result.csv;
+fi
+tmp=`ls -l /etc/shadow | awk '{print $0}'
+echo "$tmp";
+echo "U-08",2,4,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-08;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.5 /etc/hosts 파일 소유자 및 권한 설정";
@@ -201,8 +212,10 @@ else
 	result=2;
 	reason="(hosts파일의 권한 또는 소유자가 부적절함)";
 fi
-echo `ls -l /etc/hosts | awk '{print $0}'`;
-echo 2,5,$result,$reason >> $resultdir/result.csv;
+tmp=`ls -l /etc/hosts | awk '{print $0}'`;
+echo "$tmp";
+echo "U-09",2,5,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-09;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.6 /etc/(x)inetd.conf 파일 소유자 및 권한 설정";
@@ -213,7 +226,8 @@ if [ "$tmp" != "" ]; then
 		echo "양호";
 		result=1;
 		reason="-";
-		echo `ls /etc/inetd.conf 2>/dev/null`;
+		tmp=`ls /etc/inetd.conf 2>/dev/null`;
+		echo "$tmp";
 	else
 		echo "취약(inetd.conf 파일의 권한 또는 소유자가 부적절함)";
 		result=2;
@@ -233,7 +247,8 @@ else
 			echo "양호";
 			result=1;
 			reason="-";
-			echo `ls -al /etc/xinetd.conf /etc/xinetd.d/* 2>/dev/null`;
+			tmp=`ls -al /etc/xinetd.conf /etc/xinetd.d/* 2>/dev/null`;
+			echo "$tmp";
 		else
 			echo "취약(xinetd.conf, xinetd.d 밑 하위 파일들의 권한 또는 소유자가 부적절함)";
 			result=2;
@@ -242,7 +257,8 @@ else
 		fi
 	fi
 fi
-echo 2,6,$result,$reason >> $resultdir/result.csv;
+echo "U-10",2,6,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-10;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.7 /etc/syslog.conf 파일 소유자 및 권한 설정";
@@ -258,7 +274,8 @@ if [ "$tmp" != "" ]; then
 		result=2;
 		reason="(syslog.conf파일의 권한 또는 소유자가 부적절함)";
 	fi
-	echo `ls -l /etc/syslog.conf | awk '{print $0}'`;
+	tmp=`ls -l /etc/syslog.conf | awk '{print $0}'`;
+	echo "$tmp";
 else
 	tmp=`ls -al /etc/rsyslog.conf 2>/dev/null`;
 	if [ "$tmp" == "" ];then
@@ -277,10 +294,12 @@ else
 			result=2;
 			reason="(rsyslog.conf파일의 권한 또는 소유자가 부적절함)";
 		fi
-		echo `ls -l /etc/rsyslog.conf | awk '{print $0}'`;
+		tmp=`ls -l /etc/rsyslog.conf | awk '{print $0}'`;
+		echo "$tmp";
 	fi
 fi
-echo 2,7,$result,$reason >> $resultdir/result.csv;
+echo "U-11",2,7,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-11;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.8 /etc/services 파일 소유자 및 권한 설정";
@@ -301,24 +320,31 @@ else
 		result=2;
 		reason="(services파일의 권한 또는 소유자가 부적절함)";
 	fi
-	echo `ls -l /etc/services | awk '{print $0}'`;
+	tmp=`ls -l /etc/services | awk '{print $0}'`;
+	echo "$tmp";
 fi
-echo 2,8,$result,$reason >> $resultdir/result.csv;
+echo "U-12",2,8,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-12;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.9 SUID, SGID, Sticky bit 설정 및 권한 설정";
 echo "수동진단 필요(OS 기본파일을 확인해서 제외해야함)";
 echo "";
 echo "SUID가 설정되어있는 파일들";
+echo "SUID가 설정되어있는 파일들" > $resultdir/U-13;
 tmp=`find / -perm -4000 2>/dev/null -exec ls -l {} \;`;
 echo "$tmp";
+echo "$tmp" >> $resultdir/U-13;
 echo ""
+echo "" >> $resultdir/U-13;
 echo "SGID가 설정되어 있는 파일들";
+echo "SGID가 설정되어 있는 파일들" >> $resultdir/U-13;
 tmp=`find / -perm -2000 2>/dev/null -exec ls -l {} \;`;
 echo "$tmp";
+echo "$tmp" >> $resultdir/U-13;
 result=4;
 reason="수동진단 필요(OS 기본파일을 확인해서 제외해야함)";
-echo 2,9,$result,$reason >> $resultdir/result.csv;
+echo "U-13",2,9,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.10 사용자, 시스템 시작파일 및 환경파일 소유자 및 권한 설정";
@@ -327,7 +353,8 @@ tmp=`find / -name "*.*sh*profile" 2>/dev/null -exec ls -l {} \; -o -name "*.*sh*
 echo "$tmp";
 result=4;
 reason="(passwd파일 내 홈 디렉터리 확인 후 소유자가 본인 또는 root이며 쓰기는 소유자만인지 확인)";
-echo 2,10,$result,$reason >> $resultdir/result.csv;
+echo "U-14",2,10,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-14;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.11 world writable 파일 점검";
@@ -342,7 +369,8 @@ else
 	reason="(World writable 파일이 존재함)";
 	echo "$tmp";
 fi
-echo 2,11,$result,$reason >> $resultdir/result.csv;
+echo "U-15",2,11,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-15;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.12 /dev에 존재하지 않는 device 파일 점검";
@@ -363,7 +391,8 @@ else
 	reason="(Device  파일이 맞는지 확인 필요/ OS 기본은 양호)";
 	echo "$tmp";
 fi
-echo 2,12,$result,$reason >> $resultdir/result.csv;
+echo "U-16",2,12,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-16;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.13 $HOME/.rhosts, hosts.equiv 사용 금지";
@@ -372,6 +401,7 @@ if [ "$tmp" != "" ]; then
 	echo "양호(해당 서비스를 사용하고 있지 않음)";
 	result=1
 	reason="(해당 서비스를 사용하고 있지 않음)";
+	echo "$tmp" > $resultdir/U-17;
 else
 	result=1
 	tmp=`ls -l /etc/hosts.equiv 2>/dev/null`;
@@ -383,27 +413,33 @@ else
 			reason="hosts.equiv : 취약(권한 또는 소유자 설정이 취약함)"
 			tmp=`ls -al /etc/hosts.equiv 2>/dev/null`;
 			echo "$tmp";
+			echo "$tmp" >> $resultdir/U-17;
 		fi
 		tmp=`grep + /etc/hosts.equiv 2>/dev/null`;
 		if [ "$tmp" == "" ]; then
 			echo "hosts.equiv : 양호"
 			tmp=`cat /etc/hosts.equiv 2>/dev/null`;
-			echo `$tmp`;
+			echo "$tmp";
+			echo "$tmp" >> $resultdir/U-17;
 		else
 			echo "hosts.equiv : 취약(파일 내 + 가 존재함)";
 			result=2
 			reason=$reason"/hosts.equiv : 취약(파일 내 + 가 존재함)";
 			tmp=`ls -al /etc/hosts.equiv 2>/dev/null`;
 			echo "$tmp";
+			echo "$tmp" >> $resultdir/U-17;
 		fi
 	else
 		echo "hosts.equiv : 양호(파일이 존재하지 않습니다)";
 		result=1;
+		echo "$tmp" >> $resultdir/U-17;
 	fi
 	echo "";
+	echo "" >> $resultdir/U-17;
 	tmp=`find / -name ".rhosts" 2>/dev/null`;
 	if [ "$tmp" == "" ]; then
 		echo ".rhosts : 양호(파일이 존재하지 않습니다)";
+		echo "$tmp" >> $resultdir/U-17;
 	else
 		tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \; | awk '{if($3=="root"){print $1}}' | grep -i "rw\-\-\-\-\-\-\-\|r\-\-\-\-\-\-\-\-\|\-\-\-\-\-\-\-\-\-"`;
 		if [ "$tmp" == "" ]; then
@@ -412,6 +448,7 @@ else
 			reason=$reason"/.rhosts : 취약(권한 또는 소유자 설정이 취약함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
+			echo "$tmp" >> $resultdir/U-17;
 		fi
 		tmp=`find / -type f -name ".rhosts" | xargs grep +`;
 		if [ "$tmp" == "" ]; then
@@ -421,23 +458,25 @@ else
 			echo "";
 			tmp=`find / -type f -name ".rhosts" -exec cat {} \;`;
 			echo "$tmp"; 
+			echo "$tmp" >> $resultdir/U-17;
 		else
 			echo ".rhosts : 취약(파일 내 + 가 존재함)";
 			result=2
 			reason=$reason"/.rhosts : 취약(파일 내 + 가 존재함)";
 			tmp=`find / -type f -name ".rhosts" 2>/dev/null -exec ls -l {} \;`;
 			echo "$tmp";
+			echo "$tmp" >> $resultdir/U-17;
 		fi
 	fi
 fi
-echo 2,13,$result,$reason >> $resultdir/result.csv;
+echo "U-17",2,13,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.14 접속 IP 및 포트 제한";			
 echo "수동 진단 필요(인터뷰 필요)";
 result=4;
 reason="(인터뷰 필요)";
-echo 2,14,$result,$reason >> $resultdir/result.csv;
+echo "U-18",2,14,$result,$reason >> $resultdir/result.csv;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3. 서비스 관리";
@@ -479,7 +518,8 @@ else
 		reason="(서비스 설치되어 있지 않음)";
 	fi
 fi
-echo 3,1,$result,$reason >> $resultdir/result.csv;
+echo "U-19",3,1,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-19;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.2 Anonymous FTP 비활성화";			
@@ -488,7 +528,8 @@ tmp=`cat /etc/passwd | grep -i -E "ftp:|anonymous"`;
 echo "$tmp";
 result=4;
 reason="(정확히ftp로 된 계정과 Anonymous로 된 계정 없는지 확인)";
-echo 3,2,$result,$reason >> $resultdir/result.csv;
+echo "U-20",3,2,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-20;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.3 r 계열 서비스 비활성화";
@@ -527,7 +568,8 @@ else
 		reason="(검사할 파일이 존재하지 않음)";
 	fi
 fi
-echo 3,3,$result,$reason >> $resultdir/result.csv;
+echo "U-21",3,3,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-21;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.4 cron 파일 소유자 및 권한 설정";			
@@ -544,7 +586,8 @@ else
 	reason="(cron 파일 소유자 또는 권한이 부적절함)";
 	echo "$tmp";
 fi
-echo 3,4,$result,$reason >> $resultdir/result.csv;
+echo "U-22",3,4,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-22;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.5 DoS 공격에 취약한 서비스 비활성화";
@@ -585,7 +628,8 @@ else
 		fi
 	fi
 fi
-echo 3,5,$result,$reason >> $resultdir/result.csv;
+echo "U-23",3,5,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-23;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.6 NFS 서비스 비활성화";
@@ -602,7 +646,8 @@ else
 	reason="(nfs 서비스 실행중으로 불필요한지 확인)";
 	echo "$tmp";
 fi
-echo 3,6,$result,$reason >> $resultdir/result.csv;
+echo "U-24",3,6,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-24;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.7 NFS 접근 통제";
@@ -628,7 +673,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,7,$result,$reason >> $resultdir/result.csv;
+echo "U-25",3,7,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-25;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.8 automountd 제거";
@@ -645,7 +691,8 @@ else
 	reason="(automountd 실행중)";
 	echo "$tmp";
 fi
-echo 3,8,$result,$reason >> $resultdir/result.csv;
+echo "U-26",3,8,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-26;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.9 RPC 서비스 확인";
@@ -686,7 +733,8 @@ else
 		fi
 	fi
 fi
-echo 3,9,$result,$reason >> $resultdir/result.csv;
+echo "U-27",3,9,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-27;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.10 NIS, NIS+ 점검";
@@ -703,7 +751,8 @@ else
 	reason="(NIS+를 쓰는지 확인 필요)";
 	echo "$tmp";
 fi
-echo 3,10,$result,$reason >> $resultdir/result.csv;
+echo "U-28",3,10,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-28;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.11 tftp, talk 서비스 비활성화";
@@ -744,7 +793,8 @@ else
 		fi
 	fi
 fi
-echo 3,11,$result,$reason >> $resultdir/result.csv;
+echo "U-29",3,11,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-29;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.12 Sendmail 버전 점검";
@@ -759,7 +809,8 @@ else
 	reason="(http://www.sendmail.org에서 최신 버전 확인 후 진단)";
 	echo "$tmp";
 fi
-echo 3,12,$result,$reason >> $resultdir/result.csv;
+echo "U-30",3,12,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-30;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.13 스팸 메일 릴레이 제한";
@@ -789,7 +840,8 @@ else
 		reason="(Relaying denied 설정이 없음)";
 	fi
 fi
-echo 3,13,$result,$reason >> $resultdir/result.csv;
+echo "U-31",3,13,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-31;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.14 일반사용자의 Sendmail 실행 방지";
@@ -813,7 +865,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,14,$result,$reason >> $resultdir/result.csv;
+echo "U-32",3,14,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-32;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.15 DNS 보안 버전 패치";
@@ -831,7 +884,8 @@ else
 	reason="(bind version이 보안 패치된 버전인지 확인 필요)";
 	echo "$tmp";
 fi
-echo 3,15,$result,$reason >> $resultdir/result.csv;
+echo "U-33",3,15,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-33;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "3.16 DNS Zone Transfer 설정";
@@ -857,7 +911,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,16,$result,$reason >> $resultdir/result.csv;
+echo "U-34",3,16,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-34;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "4. 패치 관리";
@@ -868,7 +923,8 @@ tmp=`grep . /etc/*-release | awk '!x[$0]++ {print $0}'`;
 echo "$tmp";
 result=4;
 reason="(인터뷰 필요)";
-echo 4,1,$result,$reason >> $resultdir/result.csv;
+echo "U-42",4,1,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-42;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "5. 패치 관리";
@@ -877,7 +933,7 @@ echo "5.1 로그의 정기적 검토 및 보고";
 echo "수동진단 필요(인터뷰 필요)";
 result=4;
 reason="(인터뷰 필요)";
-echo 5,1,$result,$reason >> $resultdir/result.csv;
+echo "U-43",5,1,$result,$reason >> $resultdir/result.csv;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "1. 계정관리";
@@ -897,7 +953,8 @@ else
 	reason="(UID가 0인 일반계정이 있음)";
 	echo "$tmp";
 fi
-echo 1,5,$result,$reason >> $resultdir/result.csv;
+echo "U-44",1,5,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-44;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.6 root 계정 su 제한";
@@ -932,7 +989,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 1,6,$result,$reason >> $resultdir/result.csv;
+echo "U-45",1,6,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-45;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.7 패스워드 최소 길이 설정";
@@ -950,7 +1008,8 @@ else
 	reason="(패스워드 최소길이가 설정되지 않음)";
 	echo "$tmp";
 fi
-echo 1,7,$result,$reason >> $resultdir/result.csv;
+echo "U-46",1,7,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-46;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.8 패스워드 최대 사용기간 설정";
@@ -968,7 +1027,8 @@ else
 	reason="(패스워드 최대 사용기간이 설정되지 않음)";
 	echo "$tmp";
 fi
-echo 1,8,$result,$reason >> $resultdir/result.csv;
+echo "U-47",1,8,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-47;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.9 패스워드 최소 사용기간 설정";
@@ -986,7 +1046,8 @@ else
 	reason="(패스워드 최소 사용기간이 설정되지 않음)";
 	echo "$tmp";
 fi
-echo 1,9,$result,$reason >> $resultdir/result.csv;
+echo "U-48",1,9,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-48;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.10 불필요한 계정 제거";
@@ -995,7 +1056,8 @@ tmp=`cat /etc/passwd | cut -f 1 -d :`;
 result=4;
 reason="(계정 리스팅해서 엑셀로 계정별 사용목적 회신받기)";
 echo "$tmp";
-echo 1,10,$result,$reason >> $resultdir/result.csv;
+echo "U-49",1,10,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-49;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.11 관리자 그룹에 최소한의 계정 포함";
@@ -1004,7 +1066,8 @@ tmp=`cat /etc/group | grep root:x:0`;
 result=4;
 reason="(root 그룹 내 계정 리스팅 해서 루트권한 사용목적 회신받기)";
 echo "$tmp";
-echo 1,11,$result,$reason >> $resultdir/result.csv;
+echo "U-50",1,11,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-50;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.12 계정이 존재하지 않는 GID 금지";
@@ -1022,7 +1085,8 @@ else
 	reason="(계정이 존재하지 않는 그룹 존재함)";
 	echo "$tmp";
 fi
-echo 1,12,$result,$reason >> $resultdir/result.csv;
+echo "U-51",1,12,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-51;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.13 동일한 UID 금지";
@@ -1040,7 +1104,8 @@ else
 	reason="(동일한 UID를 가진 계정이 존재함)";
 	echo "$tmp";
 fi
-echo 1,13,$result,$reason >> $resultdir/result.csv;
+echo "U-52",1,13,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-52;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.14 사용자 shell  점검";
@@ -1049,7 +1114,8 @@ echo "수동진단 필요(로그인이 필요한 사유 회신받기)";
 result=4;
 reason="(로그인이 필요한 사유 회신받기)";
 echo "$tmp";
-echo 1,14,$result,$reason >> $resultdir/result.csv;
+echo "U-53",1,14,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-53;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "1.15 Session Timeout 설정";
@@ -1131,7 +1197,8 @@ else
 		reason="(설정파일이 존재하지 않음)";
 	fi
 fi
-echo 1,15,$result,$reason >> $resultdir/result.csv;
+echo "U-54",1,15,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-54;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "2. 파일 및 디렉토리 관리";
@@ -1156,7 +1223,8 @@ else
 	result=3;
 	reason="(파일이 존재하지 않음)";
 fi
-echo 2,15,$result,$reason >> $resultdir/result.csv;
+echo "U-55",2,15,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-55;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.16 NIS 서비스 비활성화";
@@ -1173,7 +1241,8 @@ else
 	reason="(불필요한것이 맞는지 확인 필요)";
 	echo "$tmp";
 fi
-echo 2,16,$result,$reason >> $resultdir/result.csv;
+echo "U-56",2,16,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-56;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.17 UMASK 설정 관리";
@@ -1190,7 +1259,8 @@ else
 	reason="(UMASK가 잘못 설정됨)";
 	echo "$tmp";
 fi
-echo 2,17,$result,$reason >> $resultdir/result.csv;
+echo "U-57",2,17,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-57;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.18 홈디렉토리 소유자 및 권한 설정";
@@ -1231,7 +1301,8 @@ else
 	result=2;
 	reason="(소유자 또는 권한이 부적절하게 설정됨)";
 fi
-echo 2,18,$result,$reason >> $resultdir/result.csv;
+echo "U-58",2,18,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-58;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.19 홈디렉토리로 지정한 디렉토리의 존재 관리";
@@ -1248,7 +1319,8 @@ else
 	reason="(홈디렉토리가 없는 계정이 존재함)";
 	echo "$tmp";
 fi
-echo 2,19,$result,$reason >> $resultdir/result.csv;
+echo "U-59",2,19,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-59;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "2.20 숨겨진 파일 및 디렉토리 검색 및 제거";
@@ -1271,7 +1343,8 @@ else
 	reason="(불필요한 숨김파일이 존재함 -> 담당자 확인 필요)";
 	echo "$tmp";
 fi
-echo 2,20,$result,$reason >> $resultdir/result.csv;
+echo "U-60",2,20,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-60;
 echo"";
 echo "------------------------------------------------------------------------";
 echo "3. 서비스 관리";
@@ -1335,7 +1408,8 @@ else
 		fi
 	fi
 fi
-echo 3,24,$result,$reason >> $resultdir/result.csv;
+echo "U-61",3,24,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-61;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.25 ftp 서비스 확인";
@@ -1352,7 +1426,8 @@ else
 	reason="(ftp가 사용중에 있음)";
 	echo "$tmp";
 fi
-echo 3,25,$result,$reason >> $resultdir/result.csv;
+echo "U-62",3,25,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-62;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.26 ftp 계정 shell 제한(ftp 서비스를 사용하지 않을 경우 양호)";
@@ -1378,7 +1453,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,26,$result,$reason >> $resultdir/result.csv;
+echo "U-63",3,26,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-63;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.27 ftpusers 파일 소유자 및 권한 설정(ftp 서비스를 사용하지 않을 경우 양호)";
@@ -1416,7 +1492,8 @@ else
 	result=1;
 	reason="(해당 설정 파일이 존재하지 않음)";
 fi
-echo 3,27,$result,$reason >> $resultdir/result.csv;
+echo "U-64",3,27,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-64;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.28 ftpusers 파일 설정(ftp 서비스를 사용하지 않을 경우 양호)";
@@ -1440,7 +1517,8 @@ else
 	result=1;
 	reason="(해당 설정 파일이 존재하지 않음)";
 fi
-echo 3,28,$result,$reason >> $resultdir/result.csv;
+echo "U-65",3,28,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-65;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.29 at 파일 소유자 및 권한 설정";
@@ -1478,7 +1556,8 @@ else
 	result=1;
 	reason="(해당 설정 파일이 존재하지 않음)";
 fi
-echo 3,29,$result,$reason >> $resultdir/result.csv;
+echo "U-66",3,29,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-66;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.30 SNMP 서비스 구동 점검";
@@ -1495,7 +1574,8 @@ else
 	reason="(snmp 구동중이며 사용 사유 확인 필요)";
 	echo "$tmp";
 fi
-echo 3,30,$result,$reason >> $resultdir/result.csv;
+echo "U-67",3,30,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-67;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.31 SNMP 서비스 Community String의 복잡성 설정(SNMP 비활성화 시 양호)";
@@ -1521,7 +1601,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,31,$result,$reason >> $resultdir/result.csv;
+echo "U-68",3,31,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-68;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.32 로그온 시 경고 메시지 제공";
@@ -1544,7 +1625,9 @@ else
 	result=2;
 	reason=$reason"-(서버 로그온 파일 존재하지 않음)";
 fi
+echo "$tmp" > $resultdir/U-69;
 echo "";
+echo ""; >> $resultdir/U-69;
 tmp=`systemctl status telnet.socket 2>/dev/null | grep -Ei "listening|dead"`;
 if [ "$tmp" == "" ]; then
 	echo "양호(telnet설치되어 있지 않음)";
@@ -1560,7 +1643,9 @@ else
 		reason=$reason"-(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
+echo "$tmp" >> $resultdir/U-69;
 echo "";
+echo "" >> $resultdir/U-69;
 tmp=`systemctl status vsftpd 2>/dev/null | grep -Ei "running|dead"`;
 if [ "$tmp" == "" ]; then
 	echo "양호(vsftp설치되어 있지 않음)";
@@ -1576,7 +1661,9 @@ else
 		reason=$reason"-(vsftpd 로그온 메시지 미설정됨)";
 	fi
 fi
+echo "$tmp" >> $resultdir/U-69;
 echo "";
+echo "" >> $resultdir/U-69;
 tmp=`ls -l /etc/mail/sendmail.cf 2>/dev/null`;
 if [ "$tmp" == "" ]; then
 	echo "양호(sendmail 설치되어 있지 않음)";
@@ -1592,7 +1679,9 @@ else
 		reason=$reason"-(sendmail 로그온 메시지 미설정됨)";
 	fi
 fi
+echo "$tmp" >> $resultdir/U-69;
 echo "";
+echo "" >> $resultdir/U-69;
 tmp=`systemctl status named 2>/dev/null | grep -Ei "running|dead"`;
 if [ "$tmp" == "" ]; then
 	echo "양호(DNS 서버 설치되어 있지 않음)";
@@ -1608,7 +1697,8 @@ else
 		reason=$reason"-(telnet 로그온 메시지 미설정됨)";
 	fi
 fi
-echo 3,32,$result,$reason >> $resultdir/result.csv;
+echo "U-69",3,32,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" >> $resultdir/U-69;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.33 NFS 설정파일 접근권한";
@@ -1639,7 +1729,8 @@ else
 	result=3;
 	reason="(파일이 존재하지 않음)";
 fi
-echo 3,33,$result,$reason >> $resultdir/result.csv;
+echo "U-70",3,33,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-70;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.34 expn, vrfy 명령어 제한";
@@ -1663,7 +1754,8 @@ else
 		echo "$tmp";
 	fi
 fi
-echo 3,34,$result,$reason >> $resultdir/result.csv;
+echo "U-71",3,34,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-71;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "5. 로그 관리";
@@ -1727,4 +1819,5 @@ fi
 echo "$filenm";
 tmp=`cat "$filenm" | grep -v "#" | grep -iE "\*.info;mail.none;authpriv.none;cron.none|authpriv.\*|mail.\*|cron.\*|\*.alert|\*.emerg"`;
 echo "$tmp";
-echo 5,2,$result,$reason >> $resultdir/result.csv;
+echo "U-73",5,2,$result,$reason >> $resultdir/result.csv;
+echo "$tmp" > $resultdir/U-73;

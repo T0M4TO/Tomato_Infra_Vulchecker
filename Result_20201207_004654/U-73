@@ -1,5 +1,0 @@
-*.info;mail.none;authpriv.none;cron.none                /var/log/messages
-authpriv.*                                              /var/log/secure
-mail.*                                                  -/var/log/maillog
-cron.*                                                  /var/log/cron
-*.emerg                                                 :omusrmsg:*

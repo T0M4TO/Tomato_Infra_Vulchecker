@@ -11,7 +11,8 @@ echo -e "Select Your OS : \c";
 read os;
 case $os in
 1) echo "one" ;;
-2) sh Infra_Vul_Checker\(CentOS_7\).sh | tee result.txt ;;
+2) echo "Collecting Data... Do not close the terminal... Please wait" && sh Infra_Vul_Checker\(CentOS_7\).sh ;;
 3) echo "three" ;;
 *) echo "INVALID NUMBER!" ;;
 esac
+echo "Finish!";

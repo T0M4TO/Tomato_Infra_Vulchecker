@@ -154,7 +154,7 @@ echo "$tmp" > $resultdir/U-40;
 echo "";
 echo "------------------------------------------------------------------------";
 echo "3.23 Apache 웹 서비스 영역의 분리";
-tmp=`grep -ri "DocumentRoot" $conf_dir | grep -v "#" | awk '{print $2}' | sed 's/"//g' | awk '{if($1=="/usr/local/apache/htdocs" || $1=="/usr/local/apache2/htdocs" || $1=="/var/www/html"){print $0}'`
+tmp=`grep -ri "DocumentRoot" $conf_dir | grep -v "#" | awk '{print $2}' | sed 's/"//g' | awk '{if($1=="/usr/local/apache/htdocs" || $1=="/usr/local/apache2/htdocs" || $1=="/var/www/html"){print $0}}'`
 if [ "$tmp" == "" ]; then
 	echo "양호";
 	result=1;

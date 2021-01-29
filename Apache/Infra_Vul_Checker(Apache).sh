@@ -33,7 +33,7 @@ else
 	result=2;
 	reason="(Indexes 옵션이 설정되어 있음)"
 fi
-tmp=`cat $conf_dir`;
+tmp=`cat $conf_dir | grep -v "#"`;
 echo "$tmp";
 echo "U-35",3,17,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-35;
@@ -68,7 +68,7 @@ else
 	result=2;
 	reason="(AllowOverride 옵션이 None으로 설정되어 있음)"
 fi
-tmp=`cat $conf_dir`;
+tmp=`cat $conf_dir | grep -v "#"`;
 echo "$tmp";
 echo "U-37",3,19,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-37;
@@ -124,7 +124,7 @@ else
 	result=2;
 	reason="(FollowSymLinks 옵션이 설정되어 있음)"
 fi
-tmp=`cat $conf_dir`;
+tmp=`cat $conf_dir | grep -v "#"`;
 echo "$tmp";
 echo "U-39",3,21,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-39;
@@ -147,7 +147,7 @@ else
 		reason="-";
 	fi
 fi
-tmp=`cat $conf_dir`;
+tmp=`cat $conf_dir | grep -v "#"`;
 echo "$tmp";
 echo "U-40",3,22,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-40;
@@ -159,7 +159,7 @@ if [ "$tmp" == "" ]; then
 	echo "양호";
 	result=1;
 	reason="-";
-	tmp=`cat $conf_dir`;
+	tmp=`cat $conf_dir | grep -v "#"`;
 else
 	echo "취약(DocumentRoot가 기본 디렉토리로 지정되어 있음)";
 	result=2;
@@ -230,7 +230,7 @@ else
 		fi
 	fi
 fi
-tmp=`cat $conf_dir`;
+tmp=`cat $conf_dir | grep -v "#"`;
 echo "$tmp";
 echo "U-72",3,35,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-72;

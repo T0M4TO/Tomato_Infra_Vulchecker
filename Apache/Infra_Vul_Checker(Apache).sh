@@ -34,7 +34,7 @@ else
 	reason="(Indexes 옵션이 설정되어 있음)"
 fi
 tmp=`cat $conf_dir`;
-echo $tmp;
+echo "$tmp";
 echo "U-35",3,17,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-35;
 echo 
@@ -52,7 +52,7 @@ else
 	reason="(Apache 프로세스가 Root로 실행되고 있음)"
 fi
 tmp=`grep -rE "User|Group" $conf_dir | grep -vEi "#|User-Agent"`;
-echo $tmp;
+echo "$tmp";
 echo "U-36",3,18,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-36;
 echo "";
@@ -69,7 +69,7 @@ else
 	reason="(AllowOverride 옵션이 None으로 설정되어 있음)"
 fi
 tmp=`cat $conf_dir`;
-echo $tmp;
+echo "$tmp";
 echo "U-37",3,19,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-37;
 echo "";
@@ -83,13 +83,13 @@ if [ "$tmp" == "" ]; then
 		result=1;
 		reason="-";
 		tmp=`grep -ri "DocumentRoot" $conf_dir | grep -v "#" | awk '{print $2}' | sed 's/"//g' | xargs ls -ld 2>/dev/null`;
-		echo $tmp;
+		echo "$tmp";
 		echo "$tmp" > $resultdir/U-38;
 	else
 		echo "취약(불필요한 manaul 디렉토리가 존재함)";
 		result=2;
 		reason="(불필요한 manaul 디렉토리가 존재함)";
-		echo $tmp2;
+		echo "$tmp2";
 		echo "$tmp2" > $resultdir/U-38;
 	fi
 else
@@ -98,14 +98,14 @@ else
 		echo "취약(불필요한 htdocs/manual 디렉토리가 존재함)";
 		result=2;
 		reason="(불필요한 htdocs/manaul 디렉토리가 존재함)";
-		echo $tmp;
+		echo "$tmp";
 		echo "$tmp" > $resultdir/U-38;
 	else
 		echo "취약(불필요한 manaul 디렉토리와 htdocs/manaul 디렉토리가 존재함)";
 		result=2;
 		reason="(불필요한 manaul 디렉토리와 htdocs/manaul 디렉토리가 존재함)";
-		echo $tmp;
-		echo $tmp2;
+		echo "$tmp";
+		echo "$tmp2";
 		echo "$tmp" > $resultdir/U-38;
 		echo "$tmp2" >> $resultdir/U-38;
 	fi
@@ -125,7 +125,7 @@ else
 	reason="(FollowSymLinks 옵션이 설정되어 있음)"
 fi
 tmp=`cat $conf_dir`;
-echo $tmp;
+echo "$tmp";
 echo "U-39",3,21,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-39;
 echo "";
@@ -148,7 +148,7 @@ else
 	fi
 fi
 tmp=`cat $conf_dir`;
-echo $tmp;
+echo "$tmp";
 echo "U-40",3,22,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-40;
 echo "";
@@ -165,7 +165,7 @@ else
 	result=2;
 	reason="(DocumentRoot가 기본 디렉토리로 지정되어 있음)"
 fi
-echo $tmp;
+echo "$tmp";
 echo "U-41",3,23,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-41;
 echo "";
@@ -231,7 +231,7 @@ else
 	fi
 fi
 tmp=`cat $conf_dir`;
-echo $tmp;
+echo "$tmp";
 echo "U-72",3,35,$result,$reason >> $resultdir/result.csv;
 echo "$tmp" > $resultdir/U-72;
 echo "";
